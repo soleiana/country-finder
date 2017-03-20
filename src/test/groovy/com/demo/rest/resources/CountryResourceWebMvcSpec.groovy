@@ -22,7 +22,7 @@ class CountryResourceWebMvcSpec extends Specification {
 
     def "should return country in JSON"() {
         when: "user sends phone number"
-            resource.getCountryByPhone(PHONE_NUMBER)
+            resource.getCountryByPhoneNumber(PHONE_NUMBER)
 
         then: "country is returned in JSON"
             mvc.perform(MockMvcRequestBuilders.get("/country?phoneNumber=${PHONE_NUMBER}"))

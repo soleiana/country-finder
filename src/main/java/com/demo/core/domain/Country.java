@@ -1,9 +1,9 @@
-package com.demo.rest.resources.domain;
+package com.demo.core.domain;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class Country {
     private String name;

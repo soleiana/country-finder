@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CountryResource {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public Country getCountryByPhone(@RequestParam(value = "phoneNumber") String phoneNumber){
+    public Country getCountryByPhoneNumber(@RequestParam(value = "phoneNumber") String phoneNumber){
         return Country.builder()
                 .name("Latvia")
                 .build();
