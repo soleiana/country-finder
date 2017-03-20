@@ -1,4 +1,4 @@
-package com.demo.resources.domain;
+package com.demo.rest.resources.domain;
 
 import lombok.Builder;
 import lombok.Data;
