@@ -1,12 +1,17 @@
 package com.demo.core;
 
+import com.demo.exceptions.FormatException;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class RawPhoneNumber extends PhoneNumber {
+
+    private static final String EMPTY_NUMBER_MESSAGE = "phone number is empty";
 
     @Builder
     public RawPhoneNumber(String number) {
@@ -14,9 +19,20 @@ public class RawPhoneNumber extends PhoneNumber {
     }
 
     public FormattedPhoneNumber format() {
-        String formattedNumber = number;
+        String trimmedNumber = number.trim();
+        String numberWithoutLeadingPlus = removeLeadingPlus(trimmedNumber).trim();
+
+        try {
+            checkArgument(!numberWithoutLeadingPlus.isEmpty(), EMPTY_NUMBER_MESSAGE);
+        } catch (IllegalArgumentException exception) {
+            throw new FormatException(exception.getMessage());
+        }
         return FormattedPhoneNumber.builder()
-                .number(formattedNumber)
+                .number(numberWithoutLeadingPlus)
                 .build();
+    }
+
+    private String removeLeadingPlus(String phoneNumber) {
+        return phoneNumber.startsWith("+") ? phoneNumber.substring(1) : phoneNumber;
     }
 }
