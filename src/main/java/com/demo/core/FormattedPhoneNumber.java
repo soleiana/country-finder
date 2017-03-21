@@ -10,9 +10,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class FormattedPhoneNumber extends PhoneNumber {
 
-    private static final int MIN_DIGITS_IN_USE = 7;
-    private static final int MAX_DIGITS_ITU_T = 15;
-
     private final Set<? extends ValidationRule> validationRules;
 
     @Builder

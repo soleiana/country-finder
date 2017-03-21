@@ -1,5 +1,5 @@
 package com.demo.core;
 
 interface ValidationRule {
-    void apply(String phoneNumber);
+    boolean apply(String phoneNumber);
 }

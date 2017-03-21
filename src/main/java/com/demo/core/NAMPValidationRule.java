@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 class NAMPValidationRule implements ValidationRule {
 
      @Override
-     public void apply(String phoneNumber) {
+     public boolean apply(String phoneNumber) {
+          return true;
      }
 }

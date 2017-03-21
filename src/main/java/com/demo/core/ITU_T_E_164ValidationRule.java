@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 class ITU_T_E_164ValidationRule implements ValidationRule {
 
     @Override
-    public void apply(String phoneNumber) {
+    public boolean apply(String phoneNumber) {
+        return true;
     }
 }
