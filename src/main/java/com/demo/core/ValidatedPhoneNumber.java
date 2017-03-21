@@ -9,7 +9,7 @@ import lombok.Value;
 public class ValidatedPhoneNumber extends PhoneNumber {
 
     @Builder
-    public ValidatedPhoneNumber(String number) {
+    ValidatedPhoneNumber(String number) {
         super(number);
     }
 

@@ -1,7 +1,8 @@
 package com.demo.rest.resources;
 
 import com.demo.communications.GetCountryByPhoneNumberRequest;
-import com.demo.communications.RawPhoneNumberFactory;
+import com.demo.core.RawPhoneNumberFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,6 +10,7 @@ class RequestFactory {
 
     private final RawPhoneNumberFactory rawPhoneNumberFactory;
 
+    @Autowired
     public RequestFactory(RawPhoneNumberFactory rawPhoneNumberFactory) {
         this.rawPhoneNumberFactory = rawPhoneNumberFactory;
     }
