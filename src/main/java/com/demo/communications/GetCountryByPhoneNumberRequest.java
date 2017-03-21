@@ -1,10 +1,24 @@
 package com.demo.communications;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NonNull;
 
-@Value
+@Data
 @Builder
 public class GetCountryByPhoneNumberRequest {
-    private String phoneNumber;
+
+    @NonNull
+    private final String phoneNumber;
+
+    private final RawPhoneNumberFactory rawPhoneNumberFactory;
+
+    public GetCountryByPhoneNumberResponse execute() {
+        return rawPhoneNumberFactory.of(phoneNumber)
+                .format()
+                .validate()
+                .findCountry()
+                .transform()
+                .toResponse();
+    }
 }

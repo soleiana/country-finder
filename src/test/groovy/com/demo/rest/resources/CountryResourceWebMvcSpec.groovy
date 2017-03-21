@@ -14,21 +14,23 @@ class CountryResourceWebMvcSpec extends Specification {
 
     final PHONE_NUMBER = '+37126394806'
 
-    def resource = new CountryResource()
+    def resource = Stub(CountryResource)
 
     MockMvc mvc = standaloneSetup(resource)
             .setMessageConverters(new MappingJackson2HttpMessageConverter())
             .build()
 
-    def "should return country in JSON"() {
+    def "should return country in JSON and response status OK"() {
+        given:
+            resource.getCountryByPhoneNumber(PHONE_NUMBER) >> new Country('Latvia')
+
         when: "user sends phone number"
             resource.getCountryByPhoneNumber(PHONE_NUMBER)
 
-        then: "country is returned in JSON"
+        then: "return country in JSON and response status OK"
             mvc.perform(MockMvcRequestBuilders.get("/country?phoneNumber=${PHONE_NUMBER}"))
                     .andExpect(status().isOk())
                     .andExpect(content().string("{\"name\":\"Latvia\"}"))
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
     }
-
 }

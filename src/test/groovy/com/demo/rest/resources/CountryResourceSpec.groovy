@@ -1,19 +1,29 @@
 package com.demo.rest.resources
 
+import com.demo.communications.GetCountryByPhoneNumberRequest
+import com.demo.communications.GetCountryByPhoneNumberResponse
 import spock.lang.Specification
 
 class CountryResourceSpec extends Specification {
 
-    def resource = new CountryResource()
+    final PHONE_NUMBER = '+37126394806'
+    def requestFactory = Stub(RequestFactory)
+    def resource = new CountryResource(requestFactory)
 
-    void setup() {
-    }
+    def "should find country"() {
+        given:
+            def request = Mock(GetCountryByPhoneNumberRequest)
+            def response = Mock(GetCountryByPhoneNumberResponse)
+            requestFactory.of(_ as String) >> request
 
-    def "should return country"() {
         when: "user inputs correct international phone number"
-            def country = resource.getCountryByPhoneNumber('+37126394806')
+            def country = resource.getCountryByPhoneNumber(PHONE_NUMBER)
 
-        then: "phone number registration country is defined"
+        then:
+            1 * request.execute() >> response
+            1 * response.toCountry() >> new Country('Latvia')
+
+        and: "country is found"
             country.getName() == 'Latvia'
 
     }

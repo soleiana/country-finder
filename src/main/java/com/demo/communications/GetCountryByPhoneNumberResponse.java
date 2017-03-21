@@ -1,11 +1,19 @@
 package com.demo.communications;
 
-import com.demo.communications.domain.Country;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NonNull;
 
-@Value
+@Data
 @Builder
 public class GetCountryByPhoneNumberResponse {
-    private Country country;
+
+    @NonNull
+    private final Country country;
+
+    public com.demo.rest.resources.Country toCountry() {
+        return com.demo.rest.resources.Country.builder()
+                .name(country.getName())
+                .build();
+    }
 }
