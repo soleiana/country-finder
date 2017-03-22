@@ -7,20 +7,20 @@ import org.springframework.stereotype.Component;
 public class RawPhoneNumberFactory {
 
     private final FormattedPhoneNumberFactory formattedPhoneNumberFactory;
-    private final Formatter formatter;
+    private final FormattingOperations formattingOperations;
 
     @Autowired
     RawPhoneNumberFactory(FormattedPhoneNumberFactory formattedPhoneNumberFactory,
-                          Formatter formatter) {
+                          FormattingOperations formattingOperations) {
         this.formattedPhoneNumberFactory = formattedPhoneNumberFactory;
-        this.formatter = formatter;
+        this.formattingOperations = formattingOperations;
     }
 
     public RawPhoneNumber of(String phoneNumber) {
         return RawPhoneNumber.builder()
                 .number(phoneNumber)
                 .formattedPhoneNumberFactory(formattedPhoneNumberFactory)
-                .formatter(formatter)
+                .formattingOperations(formattingOperations)
                 .build();
     }
 }

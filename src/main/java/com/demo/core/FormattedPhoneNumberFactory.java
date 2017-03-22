@@ -8,10 +8,10 @@ import java.util.Set;
 @Component
 class FormattedPhoneNumberFactory {
 
-    private final Set<? extends ValidationRule> validationRules;
+    private final Set<? extends PhoneNumberValidationRule> validationRules;
 
     @Autowired
-    FormattedPhoneNumberFactory(Set<? extends ValidationRule> validationRules) {
+    FormattedPhoneNumberFactory(Set<? extends PhoneNumberValidationRule> validationRules) {
         this.validationRules = validationRules;
     }
 

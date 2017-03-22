@@ -18,18 +18,17 @@ import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 
 @Log
 @Component
-class Formatter {
+class FormattingOperations extends PhoneNumberOperations {
 
     private static String emptyNumberMessage = "";
     private static String internationalCallPrefix = "";
 
-    private final Environment environment;
-
     @Autowired
-    public Formatter(Environment environment) {
-        this.environment = environment;
+    FormattingOperations(Environment environment) {
+        super(environment);
     }
 
+    @Override
     String apply(String phoneNumber) {
         String normalizedNumberWithLeadingPlus = prependIfMissing(normalizeSpace(phoneNumber), internationalCallPrefix);
         try {
@@ -46,7 +45,7 @@ class Formatter {
         internationalCallPrefix = environment.getRequiredProperty(INTERNATIONAL_CALL_PREFIX_PROPERTY.asAlias());
         emptyNumberMessage = environment.getRequiredProperty(EMPTY_NUMBER_MESSAGE_PROPERTY.asAlias());
 
-        log.log(Level.INFO, format("initializing bean %s", this.getClass().getSimpleName()));
+        log.log(Level.INFO, format("Initializing bean %s", this.getClass().getSimpleName()));
         log.log(Level.INFO, format("%s=%s", INTERNATIONAL_CALL_PREFIX_PROPERTY, internationalCallPrefix));
         log.log(Level.INFO, format("%s=%s", EMPTY_NUMBER_MESSAGE_PROPERTY, emptyNumberMessage));
     }
