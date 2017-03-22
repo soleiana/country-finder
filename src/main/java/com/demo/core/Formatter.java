@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.logging.Level;
 
+import static com.demo.core.Properties.EMPTY_NUMBER_MESSAGE_PROPERTY;
+import static com.demo.core.Properties.INTERNATIONAL_CALL_PREFIX_PROPERTY;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
@@ -18,8 +20,6 @@ import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 @Component
 class Formatter {
 
-    private static final String EMPTY_NUMBER_MESSAGE_PROPERTY = "phone.number.empty_number_message";
-    private static final String INTERNATIONAL_CALL_PREFIX_PROPERTY = "phone.number.international_call_prefix";
     private static String emptyNumberMessage = "";
     private static String internationalCallPrefix = "";
 
@@ -43,11 +43,11 @@ class Formatter {
 
     @PostConstruct
     void initialize() {
-        internationalCallPrefix = environment.getProperty(INTERNATIONAL_CALL_PREFIX_PROPERTY);
-        emptyNumberMessage = environment.getProperty(EMPTY_NUMBER_MESSAGE_PROPERTY);
+        internationalCallPrefix = environment.getRequiredProperty(INTERNATIONAL_CALL_PREFIX_PROPERTY.asAlias());
+        emptyNumberMessage = environment.getRequiredProperty(EMPTY_NUMBER_MESSAGE_PROPERTY.asAlias());
 
         log.log(Level.INFO, format("initializing bean %s", this.getClass().getSimpleName()));
-        log.log(Level.INFO, format("INTERNATIONAL_CALL_PREFIX=%s", internationalCallPrefix));
-        log.log(Level.INFO, format("EMPTY_NUMBER_MSG=%s", emptyNumberMessage));
+        log.log(Level.INFO, format("%s=%s", INTERNATIONAL_CALL_PREFIX_PROPERTY, internationalCallPrefix));
+        log.log(Level.INFO, format("%s=%s", EMPTY_NUMBER_MESSAGE_PROPERTY, emptyNumberMessage));
     }
 }

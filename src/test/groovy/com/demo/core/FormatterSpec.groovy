@@ -15,8 +15,8 @@ class FormatterSpec extends Specification {
     Formatter formatter =  new Formatter(environment)
 
     def setup() {
-        environment.getProperty(INTERNATIONAL_CALL_PREFIX_PROPERTY) >> INTERNATIONAL_CALL_PREFIX
-        environment.getProperty(EMPTY_NUMBER_MESSAGE_PROPERTY) >> EMPTY_NUMBER_MESSAGE
+        environment.getRequiredProperty(INTERNATIONAL_CALL_PREFIX_PROPERTY) >> INTERNATIONAL_CALL_PREFIX
+        environment.getRequiredProperty(EMPTY_NUMBER_MESSAGE_PROPERTY) >> EMPTY_NUMBER_MESSAGE
         formatter.initialize()
     }
 
