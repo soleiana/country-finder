@@ -8,20 +8,20 @@ import lombok.Value;
 @EqualsAndHashCode(callSuper = true)
 public class RawPhoneNumber extends PhoneNumber {
 
-    private final PhoneNumberFormatter phoneNumberFormatter;
+    private final Formatter formatter;
     private final FormattedPhoneNumberFactory formattedPhoneNumberFactory;
 
     @Builder
      RawPhoneNumber(String number,
-                          FormattedPhoneNumberFactory formattedPhoneNumberFactory,
-                          PhoneNumberFormatter phoneNumberFormatter) {
+                    FormattedPhoneNumberFactory formattedPhoneNumberFactory,
+                    Formatter formatter) {
         super(number);
         this.formattedPhoneNumberFactory = formattedPhoneNumberFactory;
-        this.phoneNumberFormatter = phoneNumberFormatter;
+        this.formatter = formatter;
     }
 
     public FormattedPhoneNumber format() {
-        String normalizedNumberWithLeadingPlus = phoneNumberFormatter.apply(number);
+        String normalizedNumberWithLeadingPlus = formatter.apply(number);
         return formattedPhoneNumberFactory.of(normalizedNumberWithLeadingPlus);
     }
 }

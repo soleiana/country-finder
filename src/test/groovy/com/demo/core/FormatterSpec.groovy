@@ -1,17 +1,29 @@
 package com.demo.core
 
 import com.demo.exceptions.FormatException
+import org.springframework.core.env.Environment
 import spock.lang.Specification
 
-class PhoneNumberFormatterSpec extends Specification {
+class FormatterSpec extends Specification {
 
-    static final EMPTY_NUMBER_MESSAGE = "phone number is empty"
-    PhoneNumberFormatter phoneNumberFormatter =  new PhoneNumberFormatter()
+    static final EMPTY_NUMBER_MESSAGE_PROPERTY = 'phone.number.empty_number_message'
+    static final INTERNATIONAL_CALL_PREFIX_PROPERTY = 'phone.number.international_call_prefix'
+    static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
+    static final INTERNATIONAL_CALL_PREFIX = '+'
+
+    def environment = Stub(Environment)
+    Formatter formatter =  new Formatter(environment)
+
+    def setup() {
+        environment.getProperty(INTERNATIONAL_CALL_PREFIX_PROPERTY) >> INTERNATIONAL_CALL_PREFIX
+        environment.getProperty(EMPTY_NUMBER_MESSAGE_PROPERTY) >> EMPTY_NUMBER_MESSAGE
+        formatter.initialize()
+    }
 
     def "should return formatted phone number"() {
 
         given: "non empty phone number"
-            def expectedPhoneNumber = phoneNumberFormatter.apply(phoneNumber)
+            def expectedPhoneNumber = formatter.apply(phoneNumber)
 
         expect: "space normalized phone number with the leading plus"
             expectedPhoneNumber == formattedPhoneNumber
@@ -28,7 +40,7 @@ class PhoneNumberFormatterSpec extends Specification {
     def "should throw FormatException if empty phone number"() {
 
         when: "there is empty, containing only space chars, and/or '+' phone number"
-            phoneNumberFormatter.apply(phoneNumber)
+            formatter.apply(phoneNumber)
 
         then: "throw FormatException"
             def exception = thrown(FormatException)
