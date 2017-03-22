@@ -1,20 +1,31 @@
 package com.demo.core
 
 import com.demo.exceptions.ValidationException
+import org.springframework.core.env.Environment
 import spock.lang.Specification
 
 class PhoneNumberBasicValidationRuleSpec extends Specification {
 
-    final INVALID_BASIC_FORMAT = "invalid basic format"
+    static final MIN_DIGITS_IN_USE = "phone.number.min_digits_in_use"
+    static final MAX_DIGITS_ITU_T = "phone.number.max_digits_itu_t"
+    static final INVALID_BASIC_FORMAT = "invalid basic format"
+    static final MIN_DIGITS = 7
+    static final MAX_DIGITS = 15
 
-    def validationRule = new PhoneNumberBasicValidationRule()
+    def environment = Stub(Environment)
+    def validationRule = new PhoneNumberBasicValidationRule(environment)
 
+    def setup() {
+        environment.getProperty(MIN_DIGITS_IN_USE, Integer.class) >> MIN_DIGITS
+        environment.getProperty(MAX_DIGITS_ITU_T, Integer.class) >> MAX_DIGITS
+        validationRule.initialize()
+    }
     def "should be successfully applied to correct phone number"() {
 
-        given: "rule is applied"
+        when: "rule is applied"
            def result =  validationRule.apply(phoneNumber)
 
-        expect: "successful result"
+        then: "result is success"
             result
         where:
             phoneNumber                 | _
@@ -35,7 +46,7 @@ class PhoneNumberBasicValidationRuleSpec extends Specification {
         when: "rule is applied"
             validationRule.apply(phoneNumber)
 
-        then: "expect ValidationException"
+        then: "throw ValidationException"
             def exception = thrown(ValidationException)
             exception.message == INVALID_BASIC_FORMAT
 

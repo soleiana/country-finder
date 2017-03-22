@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 class CountryResourceWebMvcSpec extends Specification {
 
-    final PHONE_NUMBER = '+37126394806'
+    static final PHONE_NUMBER = '+37126394806'
     def resource = Stub(CountryResource)
 
     MockMvc mvc = standaloneSetup(resource)

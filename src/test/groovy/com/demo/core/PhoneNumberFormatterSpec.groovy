@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class PhoneNumberFormatterSpec extends Specification {
 
-    final EMPTY_NUMBER_MESSAGE = "phone number is empty"
+    static final EMPTY_NUMBER_MESSAGE = "phone number is empty"
     PhoneNumberFormatter phoneNumberFormatter =  new PhoneNumberFormatter()
 
     def "should return formatted phone number"() {
@@ -30,7 +30,7 @@ class PhoneNumberFormatterSpec extends Specification {
         when: "there is empty, containing only space chars, and/or '+' phone number"
             phoneNumberFormatter.apply(phoneNumber)
 
-        then: "expect FormatException"
+        then: "throw FormatException"
             def exception = thrown(FormatException)
             exception.message == EMPTY_NUMBER_MESSAGE
 

@@ -5,10 +5,10 @@ import spock.lang.Specification
 
 class RawPhoneNumberSpec extends Specification {
 
-    final EMPTY_NUMBER_MESSAGE = "phone number is empty"
-    final RAW_PHONE_NUMBER = '  371 26  39  48   06'
-    final FORMATTED_PHONE_NUMBER = '+371 26 39 48 06'
-    final EMPTY_PHONE_NUMBER = '+  '
+    static final EMPTY_NUMBER_MESSAGE = "phone number is empty"
+    static final RAW_PHONE_NUMBER = '  371 26  39  48   06'
+    static final FORMATTED_PHONE_NUMBER = '+371 26 39 48 06'
+    static final EMPTY_PHONE_NUMBER = '+  '
 
     def formattedPhoneNumberFactory = Mock(FormattedPhoneNumberFactory)
     def phoneNumberFormatter = Mock(PhoneNumberFormatter)
