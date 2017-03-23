@@ -1,15 +1,13 @@
 package com.demo.core
 
-import org.springframework.core.env.Environment
 import spock.lang.Specification
 
 import java.util.regex.Pattern
 
 class ITU_TValidationRuleSpec extends Specification {
 
-    def environment = Stub(Environment)
     def regexFactory = Stub(PhoneNumberRegexFactory)
-    def validationRule = new ITU_TValidationRule(environment, regexFactory)
+    def validationRule = new ITU_TValidationRule(regexFactory)
     def regex = Stub(PhoneNumberRegex)
 
     def "should apply to correct phone number"() {

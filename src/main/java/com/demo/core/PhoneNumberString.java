@@ -2,8 +2,9 @@ package com.demo.core;
 
 import com.demo.exceptions.FormatException;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.Value;
+import lombok.ToString;
 import lombok.extern.java.Log;
 
 import java.util.regex.Pattern;
@@ -11,8 +12,9 @@ import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 
 @Log
-@Value
 @Builder
+@ToString
+@EqualsAndHashCode
 class PhoneNumberString {
 
     private static final String INTERNATIONAL_CALL_PREFIX = "+";
@@ -22,7 +24,7 @@ class PhoneNumberString {
     private static final char PHONE_NUMBER_EXTENSION_DELIMITER = 'x';
 
     @NonNull
-    private String phoneNumber;
+    private final String phoneNumber;
 
     String asNumber() {
         return phoneNumber;

@@ -2,21 +2,21 @@ package com.demo.core;
 
 import com.demo.exceptions.ValidationException;
 import lombok.Builder;
+import lombok.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Builder
 class PhoneNumberRegex {
 
-    @NotNull
+    @NonNull
     private final String phoneNumber;
 
-    @NotNull
+    @NonNull
     private final Pattern regexPattern;
 
-    @NotNull
+    @NonNull
     private final String errorMessage;
 
     boolean applyWithException() {

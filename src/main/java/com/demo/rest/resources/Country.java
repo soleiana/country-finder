@@ -1,13 +1,14 @@
 package com.demo.rest.resources;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
-@Data
 @Builder
+@ToString
+@EqualsAndHashCode
 public class Country {
 
     @NonNull
+    @Getter
     private final String name;
+
 }

@@ -1,7 +1,6 @@
 package com.demo.core
 
 import com.demo.exceptions.ValidationException
-import org.springframework.core.env.Environment
 import spock.lang.Specification
 
 import java.util.regex.Pattern
@@ -10,9 +9,8 @@ class BasicValidationRuleSpec extends Specification {
 
     static final INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
 
-    def environment = Stub(Environment)
     def regexFactory = Stub(PhoneNumberRegexFactory)
-    def validationRule = new BasicValidationRule(environment, regexFactory)
+    def validationRule = new BasicValidationRule(regexFactory)
     def regex = Stub(PhoneNumberRegex)
 
     def "should apply to correct phone number"() {

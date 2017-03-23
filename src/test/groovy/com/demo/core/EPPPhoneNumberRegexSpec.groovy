@@ -64,9 +64,12 @@ class EPPPhoneNumberRegexSpec extends Specification {
             !result
 
         where:
-            phoneNumber                 | _
-            '+123.12345x'               | _
-            '+.x'                       | _
-            '+123.12345aaa'             | _
+            phoneNumber        | _
+            '+123.12345x'      | _
+            '+.x'              | _
+            '+123.12345aaa'    | _
+            '+'                | _
+            ''                 | _
+            ' '                | _
     }
 }

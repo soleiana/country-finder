@@ -25,7 +25,7 @@ class CountryResourceSpec extends Specification {
             1 * response.toCountry() >> new Country('Latvia')
 
         and: "country is found"
-            country.getName() == 'Latvia'
+            country.name == 'Latvia'
 
     }
 }

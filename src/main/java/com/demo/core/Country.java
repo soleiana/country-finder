@@ -1,15 +1,17 @@
 package com.demo.core;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.Value;
+import lombok.ToString;
 
-@Value
 @Builder
-public class Country {
+@ToString
+@EqualsAndHashCode
+public final class Country {
 
     @NonNull
-    private String name;
+    private final String name;
 
     public com.demo.communications.Country transform() {
         return com.demo.communications.Country.builder()

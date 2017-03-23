@@ -2,7 +2,6 @@ package com.demo.core;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
@@ -15,8 +14,8 @@ class BasicValidationRule extends PhoneNumberValidationRule {
     private static final Pattern ITU_T_PHONE_NUMBER_STRICT = Pattern.compile("^\\+[0-9]{7,15}$");
 
     @Autowired
-    BasicValidationRule(Environment environment, PhoneNumberRegexFactory phoneNumberRegexFactory) {
-        super(environment, phoneNumberRegexFactory);
+    BasicValidationRule(PhoneNumberRegexFactory phoneNumberRegexFactory) {
+        super(phoneNumberRegexFactory);
     }
 
     @Override

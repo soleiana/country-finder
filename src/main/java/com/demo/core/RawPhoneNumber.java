@@ -2,11 +2,9 @@ package com.demo.core;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Value;
 
-@Value
 @EqualsAndHashCode(callSuper = true)
-public class RawPhoneNumber extends PhoneNumber {
+public final class RawPhoneNumber extends PhoneNumber {
 
     private final FormattedPhoneNumberFactory formattedPhoneNumberFactory;
 

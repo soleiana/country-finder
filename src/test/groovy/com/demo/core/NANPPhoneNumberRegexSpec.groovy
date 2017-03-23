@@ -80,10 +80,13 @@ class NANPPhoneNumberRegexSpec extends Specification {
             !result
 
         where:
-            phoneNumber                 | _
-            '+ 123 4567A901'            | _
-            '+1-234-567/8901'           | _
-            '+123 456'                  | _
-            '+1.(34) 56-7'              | _
+            phoneNumber           | _
+            '+ 123 4567A901'      | _
+            '+1-234-567/8901'     | _
+            '+123 456'            | _
+            '+1.(34) 56-7'        | _
+            '+'                   | _
+            ''                    | _
+            ' '                   | _
     }
 }

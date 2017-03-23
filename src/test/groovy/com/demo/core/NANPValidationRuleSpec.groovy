@@ -1,15 +1,13 @@
 package com.demo.core
 
-import org.springframework.core.env.Environment
 import spock.lang.Specification
 
 import java.util.regex.Pattern
 
 class NANPValidationRuleSpec extends Specification {
 
-    def environment = Stub(Environment)
     def regexFactory = Stub(PhoneNumberRegexFactory)
-    def validationRule = new NANPValidationRule(environment, regexFactory)
+    def validationRule = new NANPValidationRule(regexFactory)
     def regex = Stub(PhoneNumberRegex)
 
     def "should apply to correct phone number"() {

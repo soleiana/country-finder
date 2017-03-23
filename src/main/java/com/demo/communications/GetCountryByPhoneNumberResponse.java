@@ -1,11 +1,13 @@
 package com.demo.communications;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 
-@Data
 @Builder
+@ToString
+@EqualsAndHashCode
 public class GetCountryByPhoneNumberResponse {
 
     @NonNull
@@ -13,7 +15,7 @@ public class GetCountryByPhoneNumberResponse {
 
     public com.demo.rest.resources.Country toCountry() {
         return com.demo.rest.resources.Country.builder()
-                .name(country.getName())
+                .name(country.asName())
                 .build();
     }
 }

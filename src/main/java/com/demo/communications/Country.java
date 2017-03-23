@@ -1,19 +1,25 @@
 package com.demo.communications;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.Value;
+import lombok.ToString;
 
-@Value
 @Builder
-public class Country {
+@ToString
+@EqualsAndHashCode
+public final class Country {
 
     @NonNull
-    private String name;
+    private final String name;
 
     GetCountryByPhoneNumberResponse toResponse() {
         return GetCountryByPhoneNumberResponse.builder()
                 .country(this)
                 .build();
+    }
+
+    String asName() {
+        return name;
     }
 }

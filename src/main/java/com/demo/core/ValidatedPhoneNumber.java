@@ -2,11 +2,9 @@ package com.demo.core;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Value;
 
-@Value
 @EqualsAndHashCode(callSuper = true)
-public class ValidatedPhoneNumber extends PhoneNumber {
+public final class ValidatedPhoneNumber extends PhoneNumber {
 
     @Builder
     ValidatedPhoneNumber(PhoneNumberString numberString) {
