@@ -4,23 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RawPhoneNumberFactory {
+public class RawPhoneNumberFactory extends PhoneNumberFactory {
 
     private final FormattedPhoneNumberFactory formattedPhoneNumberFactory;
-    private final FormattingOperations formattingOperations;
 
     @Autowired
     RawPhoneNumberFactory(FormattedPhoneNumberFactory formattedPhoneNumberFactory,
-                          FormattingOperations formattingOperations) {
+                          PhoneNumberStringFactory phoneNumberStringFactory) {
+        super(phoneNumberStringFactory);
         this.formattedPhoneNumberFactory = formattedPhoneNumberFactory;
-        this.formattingOperations = formattingOperations;
     }
 
     public RawPhoneNumber of(String phoneNumber) {
+        PhoneNumberString numberString = phoneNumberStringFactory.of(phoneNumber);
         return RawPhoneNumber.builder()
-                .number(phoneNumber)
+                .numberString(numberString)
                 .formattedPhoneNumberFactory(formattedPhoneNumberFactory)
-                .formattingOperations(formattingOperations)
                 .build();
     }
 }

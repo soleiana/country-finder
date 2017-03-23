@@ -9,8 +9,8 @@ import lombok.Value;
 public class ValidatedPhoneNumber extends PhoneNumber {
 
     @Builder
-    ValidatedPhoneNumber(String number) {
-        super(number);
+    ValidatedPhoneNumber(PhoneNumberString numberString) {
+        super(numberString);
     }
 
     public Country findCountry() {

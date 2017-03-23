@@ -4,7 +4,6 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-
 class EPPPhoneNumberRegexSpec extends Specification {
 
     static final EPP_REGEX = '^\\+[0-9]{1,3}\\.[0-9]{4,14}(?:[x|X].+)?$'

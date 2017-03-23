@@ -18,25 +18,27 @@ public class FormattedPhoneNumber extends PhoneNumber {
     private final Set<? extends FinalValidationRule> finalValidationRules;
 
     @Builder
-    FormattedPhoneNumber(String number,
+    FormattedPhoneNumber(PhoneNumberString numberString,
                          ValidatedPhoneNumberFactory validatedPhoneNumberFactory,
                          BasicValidationRule basicValidationRule,
                          Set<? extends FinalValidationRule> finalValidationRules) {
-        super(number);
+
+        super(numberString);
         this.validatedPhoneNumberFactory = validatedPhoneNumberFactory;
         this.finalValidationRules = finalValidationRules;
         this.basicValidationRule = basicValidationRule;
     }
 
     public ValidatedPhoneNumber validate() {
-        basicValidationRule.apply(number);
+        String formattedNumber = numberString.formatForBasicValidation();
+        basicValidationRule.apply(formattedNumber);
         boolean validationResult = finalValidationRules.stream()
-                .map(rule -> rule.apply(number))
+                .map(rule -> rule.apply(numberString.asNumber()))
                 .anyMatch(result -> result);
 
         if (!validationResult) {
             throw new ValidationException(INVALID_PHONE_NUMBER_FORMAT);
         }
-        return validatedPhoneNumberFactory.of(number);
+        return validatedPhoneNumberFactory.of(numberString.asNumber());
     }
 }

@@ -8,20 +8,18 @@ import lombok.Value;
 @EqualsAndHashCode(callSuper = true)
 public class RawPhoneNumber extends PhoneNumber {
 
-    private final FormattingOperations formattingOperations;
     private final FormattedPhoneNumberFactory formattedPhoneNumberFactory;
 
     @Builder
-     RawPhoneNumber(String number,
-                    FormattedPhoneNumberFactory formattedPhoneNumberFactory,
-                    FormattingOperations formattingOperations) {
-        super(number);
+    RawPhoneNumber(PhoneNumberString numberString,
+                    FormattedPhoneNumberFactory formattedPhoneNumberFactory){
+
+        super(numberString);
         this.formattedPhoneNumberFactory = formattedPhoneNumberFactory;
-        this.formattingOperations = formattingOperations;
     }
 
     public FormattedPhoneNumber format() {
-        String formattedNumber = formattingOperations.apply(number);
+        String formattedNumber = numberString.formatForFinalValidation();
         return formattedPhoneNumberFactory.of(formattedNumber);
     }
 }

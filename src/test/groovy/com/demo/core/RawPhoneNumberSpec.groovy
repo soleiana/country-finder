@@ -11,37 +11,37 @@ class RawPhoneNumberSpec extends Specification {
     static final EMPTY_PHONE_NUMBER = '+  '
 
     def formattedPhoneNumberFactory = Mock(FormattedPhoneNumberFactory)
-    def formattingOperations = Mock(FormattingOperations)
     RawPhoneNumber rawPhoneNumber
+    PhoneNumberString numberString
 
     def "should create formatted phone number"() {
 
         given: "non empty raw phone number"
-            rawPhoneNumber =
-                    new RawPhoneNumber(RAW_PHONE_NUMBER, formattedPhoneNumberFactory, formattingOperations)
+            numberString = new PhoneNumberString(RAW_PHONE_NUMBER)
+            rawPhoneNumber = createRawPhoneNumber()
+
         when: "format"
             rawPhoneNumber.format()
 
-        then: "apply formatting operations"
-            1 * formattingOperations.apply(RAW_PHONE_NUMBER) >> FORMATTED_PHONE_NUMBER
-
-        and: "create formatted phone number"
+        then: "create formatted phone number"
             1 * formattedPhoneNumberFactory.of(FORMATTED_PHONE_NUMBER)
     }
 
     def "should throw FormatException if empty phone number"() {
 
         given: "empty, containing only space chars, and/or '+' raw phone number"
-            rawPhoneNumber =
-                    new RawPhoneNumber(EMPTY_PHONE_NUMBER, formattedPhoneNumberFactory, formattingOperations)
+            numberString = new PhoneNumberString(EMPTY_PHONE_NUMBER)
+            rawPhoneNumber = createRawPhoneNumber()
+
         when: "format"
             rawPhoneNumber.format()
 
         then: "throw FormatException"
-            thrown(FormatException)
-            1 * formattingOperations.apply(EMPTY_PHONE_NUMBER) >> {
-                throw new FormatException(EMPTY_NUMBER_MESSAGE)
-            }
+            def exception = thrown(FormatException)
+            exception.message == EMPTY_NUMBER_MESSAGE
+    }
 
+    def createRawPhoneNumber() {
+        new RawPhoneNumber(numberString, formattedPhoneNumberFactory)
     }
 }

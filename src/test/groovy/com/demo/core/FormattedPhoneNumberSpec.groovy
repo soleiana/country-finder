@@ -6,8 +6,6 @@ import spock.lang.Specification
 class FormattedPhoneNumberSpec extends Specification {
 
     static final String INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
-
-    static final FORMATTED_ITU_T_INVALID_PHONE_NUMBER = '+3712639480A'
     static final FORMATTED_ITU_T_VALID_PHONE_NUMBER = '+37126394806'
     static final FORMATTED_BASIC_VALID_PHONE_NUMBER = '+37112345(678)'
     static final FORMATTED_BASIC_AND_NANP_VALID_PHONE_NUMBER = '+1-(234)567.890'
@@ -20,14 +18,15 @@ class FormattedPhoneNumberSpec extends Specification {
 
     def finalValidationRules = [itu_tValidationRule, nanpValidationRule, eppValidationRule] as Set
     def validatedPhoneNumberFactory = Mock(ValidatedPhoneNumberFactory)
+    FormattedPhoneNumber formattedPhoneNumber
+    PhoneNumberString phoneNumberString
 
 
     def "should throw ValidationException if phone number does not comply basic validation rule"() {
 
         given: "formatted ITU-T invalid phone number"
-            def formattedPhoneNumber =
-                    new FormattedPhoneNumber(FORMATTED_ITU_T_INVALID_PHONE_NUMBER,
-                            validatedPhoneNumberFactory, basicValidationRule, finalValidationRules)
+            phoneNumberString = new PhoneNumberString(FORMATTED_BASIC_AND_NANP_VALID_PHONE_NUMBER)
+            formattedPhoneNumber = createFormattedPhoneNumber()
 
         when: "validate"
             formattedPhoneNumber.validate()
@@ -42,9 +41,8 @@ class FormattedPhoneNumberSpec extends Specification {
     def "should throw ValidationException if phone number passes basic validation, but fails all the final rules"() {
 
         given: "formatted basic and EPP valid phone number"
-            def formattedPhoneNumber =
-                    new FormattedPhoneNumber(FORMATTED_BASIC_VALID_PHONE_NUMBER, validatedPhoneNumberFactory,
-                            basicValidationRule, finalValidationRules)
+            phoneNumberString = new PhoneNumberString(FORMATTED_BASIC_VALID_PHONE_NUMBER)
+            formattedPhoneNumber = createFormattedPhoneNumber()
 
         when: "validate"
             formattedPhoneNumber.validate()
@@ -65,9 +63,8 @@ class FormattedPhoneNumberSpec extends Specification {
     def "should create validated phone number if it complies basic validation rule and ITU-T rule"() {
 
         given: "formatted ITU-T valid phone number"
-            def formattedPhoneNumber =
-                    new FormattedPhoneNumber(FORMATTED_ITU_T_VALID_PHONE_NUMBER,
-                            validatedPhoneNumberFactory, basicValidationRule, finalValidationRules)
+            phoneNumberString = new PhoneNumberString(FORMATTED_ITU_T_VALID_PHONE_NUMBER)
+            formattedPhoneNumber = createFormattedPhoneNumber()
 
         when: "validate"
             formattedPhoneNumber.validate()
@@ -90,9 +87,8 @@ class FormattedPhoneNumberSpec extends Specification {
     def "should create validated phone number if it complies basic validation rule and EPP rule"() {
 
         given: "formatted basic and EPP valid phone number"
-            def formattedPhoneNumber =
-                    new FormattedPhoneNumber(FORMATTED_BASIC_AND_EPP_VALID_PHONE_NUMBER, validatedPhoneNumberFactory,
-                            basicValidationRule, finalValidationRules)
+            phoneNumberString = new PhoneNumberString(FORMATTED_BASIC_AND_EPP_VALID_PHONE_NUMBER)
+            formattedPhoneNumber = createFormattedPhoneNumber()
 
         when: "validate"
             formattedPhoneNumber.validate()
@@ -116,9 +112,8 @@ class FormattedPhoneNumberSpec extends Specification {
     def "should create validated phone number if it complies basic validation rule and NANP rule"() {
 
         given: "formatted basic and EPP valid phone number"
-            def formattedPhoneNumber =
-                    new FormattedPhoneNumber(FORMATTED_BASIC_AND_NANP_VALID_PHONE_NUMBER, validatedPhoneNumberFactory,
-                            basicValidationRule, finalValidationRules)
+            phoneNumberString = new PhoneNumberString(FORMATTED_BASIC_AND_NANP_VALID_PHONE_NUMBER)
+            formattedPhoneNumber = createFormattedPhoneNumber()
 
         when: "validate"
             formattedPhoneNumber.validate()
@@ -137,6 +132,12 @@ class FormattedPhoneNumberSpec extends Specification {
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(FORMATTED_BASIC_AND_NANP_VALID_PHONE_NUMBER)
+    }
 
+    def createFormattedPhoneNumber() {
+        new FormattedPhoneNumber(phoneNumberString,
+                validatedPhoneNumberFactory,
+                basicValidationRule,
+                finalValidationRules)
     }
 }

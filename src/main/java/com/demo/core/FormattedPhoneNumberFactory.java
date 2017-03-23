@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-class FormattedPhoneNumberFactory {
+class FormattedPhoneNumberFactory extends PhoneNumberFactory {
 
     private final ValidatedPhoneNumberFactory validatedPhoneNumberFactory;
     private final Set<? extends FinalValidationRule> finalValidationRules;
@@ -14,16 +14,20 @@ class FormattedPhoneNumberFactory {
 
     @Autowired
     FormattedPhoneNumberFactory(ValidatedPhoneNumberFactory validatedPhoneNumberFactory,
+                                PhoneNumberStringFactory phoneNumberStringFactory,
                                 BasicValidationRule basicValidationRule,
                                 Set<? extends FinalValidationRule> finalValidationRules) {
+
+        super(phoneNumberStringFactory);
         this.validatedPhoneNumberFactory = validatedPhoneNumberFactory;
         this.basicValidationRule = basicValidationRule;
         this.finalValidationRules = finalValidationRules;
     }
 
     FormattedPhoneNumber of(String phoneNumber) {
+        PhoneNumberString numberString = phoneNumberStringFactory.of(phoneNumber);
         return FormattedPhoneNumber.builder()
-                .number(phoneNumber)
+                .numberString(numberString)
                 .validatedPhoneNumberFactory(validatedPhoneNumberFactory)
                 .basicValidationRule(basicValidationRule)
                 .finalValidationRules(finalValidationRules)

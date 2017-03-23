@@ -7,17 +7,17 @@ import java.util.regex.Pattern
 
 class ITU_TPhoneNumberRegexSpec extends Specification {
 
-    static final ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS = Pattern.compile('^\\+[0-9]{7,15}$')
+    static final ITU_T_PHONE_NUMBER_STRICT = Pattern.compile('^\\+[0-9]{7,15}$')
+    static final ITU_T_PHONE_NUMBER_LAX = Pattern.compile('^\\+(?:[0-9] ?){6,14}[0-9]$')
     static final INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
     PhoneNumberRegex phoneNumberRegex
 
-    def "should apply to valid phone number in correct format"() {
+    def "should apply strict validation to valid phone number in correct format"() {
 
         given: "valid phone number without special characters and extension"
-            phoneNumberRegex =
-                    new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS, INVALID_ITU_T_FORMAT)
+            phoneNumberRegex = new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_STRICT, "")
 
-        when: "ITU-T regex is applied"
+        when: "ITU-T strict regex is applied"
             def result = phoneNumberRegex.applyWithException()
 
         then: "result is success"
@@ -27,17 +27,14 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
             '+12345678901'       | _
             '+1234567'           | _
             '+123456789012345'   | _
-            '+0000000'           | _
-            '+9999999'           | _
     }
 
-    def "should fail if valid phone number in wrong format"() {
+    def "should fail strict validation if valid phone number in wrong format"() {
 
         given: "valid phone number in wrong format"
-            phoneNumberRegex =
-                    new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS, INVALID_ITU_T_FORMAT)
+            phoneNumberRegex = new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_STRICT, INVALID_ITU_T_FORMAT)
 
-        when: "ITU-T regex is applied"
+        when: "ITU-T strict regex is applied"
             phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
@@ -54,13 +51,12 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
             '+123 4567'                 | _
     }
 
-    def "should fail if invalid phone number"() {
+    def "should fail strict validation if invalid phone number"() {
 
         given: "invalid phone number"
-            phoneNumberRegex =
-                    new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS, INVALID_ITU_T_FORMAT)
+            phoneNumberRegex = new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_STRICT, INVALID_ITU_T_FORMAT)
 
-        when: "ITU-T regex is applied"
+        when: "ITU-T strict regex is applied"
             phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
@@ -73,5 +69,64 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
             '+1-234-567/8901'           | _
             '+123456'                   | _
             '+1234567890123456'         | _
+    }
+
+    def "should apply lax validation to valid phone number in correct format"() {
+
+        given: "valid phone number without special characters and extension"
+            phoneNumberRegex = new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_LAX, "")
+
+        when: "ITU-T lax regex is applied"
+            def result = phoneNumberRegex.apply()
+
+        then: "result is success"
+            result
+        where:
+            phoneNumber             | _
+            '+12345678901'          |_
+            '+1 2345678901'         | _
+            '+123 123 456 78'       | _
+            '+123 456 789 012 345'  | _
+
+    }
+
+    def "should fail lax validation if valid phone number in wrong format"() {
+
+        given: "valid phone number in wrong format"
+            phoneNumberRegex = new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_LAX, INVALID_ITU_T_FORMAT)
+
+        when: "ITU-T lax regex is applied"
+            def result = phoneNumberRegex.apply()
+
+        then: "result is failure"
+            !result
+        where:
+            phoneNumber                 | _
+            '+123  123 45678'           | _
+            '12312345678'               | _
+            '+1 (123) 456 7890'         | _
+            '+123.1234x123'             | _
+    }
+
+    def "should fail lax validation if invalid phone number"() {
+
+        given: "invalid phone number"
+            phoneNumberRegex = new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_LAX, INVALID_ITU_T_FORMAT)
+
+        when: "ITU-T lax regex is applied"
+            def result = phoneNumberRegex.apply()
+
+        then: "result is failure"
+            !result
+        where:
+            phoneNumber                 | _
+            '+123123456789012345'       | _
+            '+123456'                   | _
+            '-1234567'                  | _
+            '+1234a1234'                | _
+            '+'                         | _
+            ''                          | _
+            ' '                         | _
+            '  '                        | _
     }
 }

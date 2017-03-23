@@ -37,7 +37,6 @@ class NANPPhoneNumberRegexSpec extends Specification {
             '+1.(123) 456 7890'     | _
             '+1.123.456.7890'       | _
             '+1.123456.7890'        | _
-
     }
 
     def "should fail if valid phone number in wrong format"() {
@@ -67,7 +66,6 @@ class NANPPhoneNumberRegexSpec extends Specification {
             '+1 123 (456) 7890'     | _
             '+1 123 ( 456 ) 7890'   | _
             '+1 123 . 456 . 7890'   | _
-
     }
 
     def "should fail if invalid phone number"() {
@@ -87,6 +85,5 @@ class NANPPhoneNumberRegexSpec extends Specification {
             '+1-234-567/8901'           | _
             '+123 456'                  | _
             '+1.(34) 56-7'              | _
-
     }
 }

@@ -5,7 +5,6 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-
 class EPPValidationRuleSpec extends Specification {
 
     def environment = Stub(Environment)
