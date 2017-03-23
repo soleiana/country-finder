@@ -17,6 +17,7 @@ class BasicValidationRuleSpec extends Specification {
     def environment = Stub(Environment)
     def regexFactory = Stub(PhoneNumberRegexFactory)
     def validationRule = new BasicValidationRule(environment, regexFactory)
+    def regex = Stub(PhoneNumberRegex)
 
     def setup() {
         environment.getRequiredProperty(_ as String, Integer.class) >> MIN_DIGITS
@@ -25,11 +26,10 @@ class BasicValidationRuleSpec extends Specification {
         environment.getRequiredProperty(_ as String, Character.class) >> EXTENSION_DELIMITER
         validationRule.initialize()
     }
-    def "should be successfully applied to correct phone number"() {
+    def "should apply to correct phone number"() {
 
         given: "regex passes"
-            def regex = Stub(PhoneNumberRegex)
-            regex.apply() >> true
+            regex.applyWithException() >> true
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
 
         when: "rule is applied"
@@ -54,10 +54,9 @@ class BasicValidationRuleSpec extends Specification {
     def "should throw ValidationException if regex fails"() {
 
         given: "regex throws ValidationException"
-            def regex = Stub(PhoneNumberRegex)
-            regex.apply() >> {throw new ValidationException(INVALID_BASIC_FORMAT)}
+            final invalidPhoneNumber = '+1A'
+            regex.applyWithException() >> {throw new ValidationException(INVALID_BASIC_FORMAT)}
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
-            final invalidPhoneNumber = '+ 123 4567A901'
 
         when: "rule is applied"
             validationRule.apply(invalidPhoneNumber)

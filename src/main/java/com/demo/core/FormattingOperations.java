@@ -13,7 +13,6 @@ import static com.demo.core.Properties.EMPTY_NUMBER_MESSAGE_PROPERTY;
 import static com.demo.core.Properties.INTERNATIONAL_CALL_PREFIX_PROPERTY;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 
 @Log
@@ -30,7 +29,7 @@ class FormattingOperations extends PhoneNumberOperations {
 
     @Override
     String apply(String phoneNumber) {
-        String normalizedNumberWithLeadingPlus = prependIfMissing(normalizeSpace(phoneNumber), internationalCallPrefix);
+        String normalizedNumberWithLeadingPlus = prependIfMissing(phoneNumber.replaceAll("\\s",""), internationalCallPrefix);
         try {
             int prefixLength = internationalCallPrefix.length();
             checkArgument(normalizedNumberWithLeadingPlus.length() > prefixLength, emptyNumberMessage);

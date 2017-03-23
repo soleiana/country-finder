@@ -25,16 +25,20 @@ class FormattingOperationsSpec extends Specification {
         given: "non empty phone number"
             def expectedPhoneNumber = operations.apply(phoneNumber)
 
-        expect: "space normalized phone number with the leading plus"
+        expect: "stripped of space characters phone number with the leading plus"
             expectedPhoneNumber == formattedPhoneNumber
         where:
             phoneNumber             || formattedPhoneNumber
-            '+371 12345678'         || '+371 12345678'
-            '371  123\t  45  678'   || '+371 123 45 678'
-            ' 371 12345678 '        || '+371 12345678'
-            '\t371 12345678\t'      || '+371 12345678'
-            '+  371 12345678'       || '+ 371 12345678'
-            ' +371 12345678'        || '+371 12345678'
+            '+371 12345678'         || '+37112345678'
+            '371  123\t  45  678'   || '+37112345678'
+            ' 371 12345678 '        || '+37112345678'
+            '\t371 12345678\t'      || '+37112345678'
+            '+  371 12345678'       || '+37112345678'
+            ' +371 12345678'        || '+37112345678'
+            '+1 (123)   456 7890'   || '+1(123)4567890'
+            '+1 - (123) 456 7890'   || '+1-(123)4567890'
+            '+1-( 123 ) 4567890'    || '+1-(123)4567890'
+            '+1 .  123456.7890'     || '+1.123456.7890'
     }
 
     def "should throw FormatException if empty phone number"() {

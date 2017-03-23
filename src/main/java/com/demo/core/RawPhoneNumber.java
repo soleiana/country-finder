@@ -21,7 +21,7 @@ public class RawPhoneNumber extends PhoneNumber {
     }
 
     public FormattedPhoneNumber format() {
-        String normalizedNumberWithLeadingPlus = formattingOperations.apply(number);
-        return formattedPhoneNumberFactory.of(normalizedNumberWithLeadingPlus);
+        String formattedNumber = formattingOperations.apply(number);
+        return formattedPhoneNumberFactory.of(formattedNumber);
     }
 }

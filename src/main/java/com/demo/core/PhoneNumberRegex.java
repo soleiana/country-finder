@@ -19,7 +19,7 @@ class PhoneNumberRegex {
     @NotNull
     private final String errorMessage;
 
-    boolean apply() {
+    boolean applyWithException() {
         Matcher numberMatcher = regexPattern.matcher(phoneNumber);
         if (!numberMatcher.matches()) {
             throw new ValidationException(errorMessage);
@@ -27,7 +27,7 @@ class PhoneNumberRegex {
         return true;
     }
 
-    boolean applyWithoutException() {
+    boolean apply() {
         Matcher numberMatcher = regexPattern.matcher(phoneNumber);
         return numberMatcher.matches();
     }

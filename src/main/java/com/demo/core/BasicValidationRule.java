@@ -39,7 +39,7 @@ class BasicValidationRule extends PhoneNumberValidationRule {
         String numberWithoutSpecialChars = removeSpecialCharacters(phoneNumber);
         String numberWithoutExtension = removeExtension(numberWithoutSpecialChars);
         return phoneNumberRegexFactory.of(numberWithoutExtension, basicPhoneNumber, INVALID_BASIC_FORMAT)
-                .apply();
+                .applyWithException();
     }
 
     private String removeSpecialCharacters(String phoneNumber) {

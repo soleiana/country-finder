@@ -5,20 +5,20 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-class PhoneNumberRegexSpec extends Specification {
+class BasicPhoneNumberRegexSpec extends Specification {
 
     static final BASIC_PHONE_NUMBER_PATTERN = Pattern.compile('^[0-9]{7,15}$')
     static final INVALID_BASIC_FORMAT = 'invalid basic format'
     PhoneNumberRegex phoneNumberRegex
 
-    def "should pass basic validation if valid phone number in correct format"() {
+    def "should apply to valid phone number in correct format"() {
 
         given: "valid phone number without special characters and extension"
             phoneNumberRegex =
                     new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
 
-        when: "basic validation regex is applied"
-            def result = phoneNumberRegex.apply()
+        when: "basic regex is applied"
+            def result = phoneNumberRegex.applyWithException()
 
         then: "result is success"
             result
@@ -31,14 +31,14 @@ class PhoneNumberRegexSpec extends Specification {
             '9999999'           | _
     }
 
-    def "should fail basic validation if valid phone number in wrong format"() {
+    def "should fail if valid phone number in wrong format"() {
 
         given: "valid phone number in wrong format"
             phoneNumberRegex =
                     new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
 
-        when: "basic validation regex is applied"
-            phoneNumberRegex.apply()
+        when: "basic regex is applied"
+            phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
             def exception = thrown(ValidationException)
@@ -53,14 +53,14 @@ class PhoneNumberRegexSpec extends Specification {
             '+123 4567'                 | _
     }
 
-    def "should fail basic validation if invalid phone number"() {
+    def "should fail if invalid phone number"() {
 
         given: "invalid phone number"
             phoneNumberRegex =
                     new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
 
-        when: "basic validation regex is applied"
-            phoneNumberRegex.apply()
+        when: "basic regex is applied"
+            phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
             def exception = thrown(ValidationException)
@@ -70,7 +70,7 @@ class PhoneNumberRegexSpec extends Specification {
             phoneNumber                 | _
             '+ 123 4567A901'            | _
             '+1-234-567/8901'           | _
-            '+123 456'                  | _
-            '+123 (456) 789-012-3456'   | _
+            '+123456'                   | _
+            '+1234567890123456'         | _
     }
 }

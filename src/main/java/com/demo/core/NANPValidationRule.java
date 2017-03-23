@@ -34,8 +34,7 @@ class NANPValidationRule extends PhoneNumberValidationRule {
      boolean apply(String phoneNumber) {
           checkArgument(isNotEmpty(phoneNumber), emptyNumberMessage);
           return phoneNumberRegexFactory.of(phoneNumber, NANP_PHONE_NUMBER, "")
-                  .applyWithoutException();
-
+                  .apply();
      }
 
      @PostConstruct
