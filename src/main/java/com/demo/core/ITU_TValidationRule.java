@@ -18,17 +18,17 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @Log
 @Order(1)
 @Component
-class BasicValidationRule extends PhoneNumberValidationRule {
+class ITU_TValidationRule extends PhoneNumberValidationRule {
 
     private static final String INVALID_BASIC_FORMAT = "invalid basic format";
-    private static final Pattern PHONE_NUMBER_SPECIAL_CHARACTERS = Pattern.compile("[\\+\\.\\-\\(\\)\\s]");
+    private static final Pattern PHONE_NUMBER_SPECIAL_CHARACTERS = Pattern.compile("[\\.\\-\\(\\)\\s]");
 
-    private static Pattern basicPhoneNumber;
+    private static Pattern ITU_TPhoneNumber;
     private static String emptyNumberMessage = "";
     private static Character extensionDelimiter = '-';
 
     @Autowired
-    BasicValidationRule(Environment environment, PhoneNumberRegexFactory phoneNumberRegexFactory) {
+    ITU_TValidationRule(Environment environment, PhoneNumberRegexFactory phoneNumberRegexFactory) {
         super(environment, phoneNumberRegexFactory);
     }
 
@@ -38,7 +38,7 @@ class BasicValidationRule extends PhoneNumberValidationRule {
 
         String numberWithoutSpecialChars = removeSpecialCharacters(phoneNumber);
         String numberWithoutExtension = removeExtension(numberWithoutSpecialChars);
-        return phoneNumberRegexFactory.of(numberWithoutExtension, basicPhoneNumber, INVALID_BASIC_FORMAT)
+        return phoneNumberRegexFactory.of(numberWithoutExtension, ITU_TPhoneNumber, INVALID_BASIC_FORMAT)
                 .applyWithException();
     }
 
@@ -59,8 +59,8 @@ class BasicValidationRule extends PhoneNumberValidationRule {
         emptyNumberMessage = environment.getRequiredProperty(EMPTY_NUMBER_MESSAGE_PROPERTY.asAlias());
         extensionDelimiter = environment.getRequiredProperty(EXTENSION_DELIMITER_PROPERTY.asAlias(), Character.class);
 
-        String regex = "^[0-9]{" + MIN_DIGITS + "," + MAX_DIGITS + "}$";
-        basicPhoneNumber = Pattern.compile(regex);
+        String regex = "^\\+[0-9]{" + MIN_DIGITS + "," + MAX_DIGITS + "}$";
+        ITU_TPhoneNumber = Pattern.compile(regex);
 
         log.log(Level.INFO, format("Initializing bean %s", this.getClass().getSimpleName()));
         log.log(Level.INFO, format("%s=%d", MIN_DIGITS_IN_USE_PROPERTY, MIN_DIGITS));

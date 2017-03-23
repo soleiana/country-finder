@@ -5,9 +5,9 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-class BasicPhoneNumberRegexSpec extends Specification {
+class ITU_TPhoneNumberRegexSpec extends Specification {
 
-    static final BASIC_PHONE_NUMBER_PATTERN = Pattern.compile('^[0-9]{7,15}$')
+    static final BASIC_PHONE_NUMBER_PATTERN = Pattern.compile('^\\+[0-9]{7,15}$')
     static final INVALID_BASIC_FORMAT = 'invalid basic format'
     PhoneNumberRegex phoneNumberRegex
 
@@ -17,18 +17,18 @@ class BasicPhoneNumberRegexSpec extends Specification {
             phoneNumberRegex =
                     new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
 
-        when: "basic regex is applied"
+        when: "ITU-T regex is applied"
             def result = phoneNumberRegex.applyWithException()
 
         then: "result is success"
             result
         where:
-            phoneNumber         | _
-            '12345678901'       | _
-            '1234567'           | _
-            '123456789012345'   | _
-            '0000000'           | _
-            '9999999'           | _
+            phoneNumber          | _
+            '+12345678901'       | _
+            '+1234567'           | _
+            '+123456789012345'   | _
+            '+0000000'           | _
+            '+9999999'           | _
     }
 
     def "should fail if valid phone number in wrong format"() {
@@ -37,7 +37,7 @@ class BasicPhoneNumberRegexSpec extends Specification {
             phoneNumberRegex =
                     new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
 
-        when: "basic regex is applied"
+        when: "ITU-T regex is applied"
             phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
@@ -46,6 +46,7 @@ class BasicPhoneNumberRegexSpec extends Specification {
 
         where:
             phoneNumber                 | _
+            '1 234 567 8901'            | _
             '+1-234-567-8901'           | _
             '1-234-567-8901x1234'       | _
             '+1 (234) 567-8901'         | _
@@ -59,7 +60,7 @@ class BasicPhoneNumberRegexSpec extends Specification {
             phoneNumberRegex =
                     new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
 
-        when: "basic regex is applied"
+        when: "ITU-T regex is applied"
             phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"

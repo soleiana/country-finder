@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-class BasicValidationRuleSpec extends Specification {
+class ITU_TValidationRuleSpec extends Specification {
 
     static final INVALID_BASIC_FORMAT = 'invalid basic format'
     static final MIN_DIGITS = 7
@@ -16,7 +16,7 @@ class BasicValidationRuleSpec extends Specification {
 
     def environment = Stub(Environment)
     def regexFactory = Stub(PhoneNumberRegexFactory)
-    def validationRule = new BasicValidationRule(environment, regexFactory)
+    def validationRule = new ITU_TValidationRule(environment, regexFactory)
     def regex = Stub(PhoneNumberRegex)
 
     def setup() {
