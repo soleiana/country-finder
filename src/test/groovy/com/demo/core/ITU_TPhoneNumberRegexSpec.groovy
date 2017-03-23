@@ -7,15 +7,15 @@ import java.util.regex.Pattern
 
 class ITU_TPhoneNumberRegexSpec extends Specification {
 
-    static final BASIC_PHONE_NUMBER_PATTERN = Pattern.compile('^\\+[0-9]{7,15}$')
-    static final INVALID_BASIC_FORMAT = 'invalid basic format'
+    static final ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS = Pattern.compile('^\\+[0-9]{7,15}$')
+    static final INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
     PhoneNumberRegex phoneNumberRegex
 
     def "should apply to valid phone number in correct format"() {
 
         given: "valid phone number without special characters and extension"
             phoneNumberRegex =
-                    new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
+                    new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS, INVALID_ITU_T_FORMAT)
 
         when: "ITU-T regex is applied"
             def result = phoneNumberRegex.applyWithException()
@@ -35,14 +35,14 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
 
         given: "valid phone number in wrong format"
             phoneNumberRegex =
-                    new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
+                    new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS, INVALID_ITU_T_FORMAT)
 
         when: "ITU-T regex is applied"
             phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
             def exception = thrown(ValidationException)
-            exception.message == INVALID_BASIC_FORMAT
+            exception.message == INVALID_ITU_T_FORMAT
 
         where:
             phoneNumber                 | _
@@ -58,14 +58,14 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
 
         given: "invalid phone number"
             phoneNumberRegex =
-                    new PhoneNumberRegex(phoneNumber, BASIC_PHONE_NUMBER_PATTERN, INVALID_BASIC_FORMAT)
+                    new PhoneNumberRegex(phoneNumber, ITU_T_PHONE_NUMBER_WITHOUT_CHARACTERS, INVALID_ITU_T_FORMAT)
 
         when: "ITU-T regex is applied"
             phoneNumberRegex.applyWithException()
 
         then: "throw ValidationException"
             def exception = thrown(ValidationException)
-            exception.message == INVALID_BASIC_FORMAT
+            exception.message == INVALID_ITU_T_FORMAT
 
         where:
             phoneNumber                 | _

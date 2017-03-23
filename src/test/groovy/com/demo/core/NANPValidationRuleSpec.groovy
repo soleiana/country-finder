@@ -5,7 +5,6 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-
 class NANPValidationRuleSpec extends Specification {
 
     static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
@@ -33,7 +32,6 @@ class NANPValidationRuleSpec extends Specification {
             phoneNumber   | _
             ""            | _
             null          | _
-
     }
 
     def "should be successfully applied to correct phone number"() {

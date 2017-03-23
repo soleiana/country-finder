@@ -18,7 +18,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @Log
 @Order(30)
 @Component
-class EPPValidationRule extends PhoneNumberValidationRule {
+class EPPValidationRule extends FinalValidationRule {
 
     private static final String EPP_REGEX = "^\\+[0-9]{1,3}\\.[0-9]{4,14}(?:[x|X].+)?$";
     private static final Pattern EPP_PHONE_NUMBER = Pattern.compile(EPP_REGEX);

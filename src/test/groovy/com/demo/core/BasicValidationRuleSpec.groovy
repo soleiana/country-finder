@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 import java.util.regex.Pattern
 
-class ITU_TValidationRuleSpec extends Specification {
+class BasicValidationRuleSpec extends Specification {
 
     static final INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
     static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
@@ -14,7 +14,7 @@ class ITU_TValidationRuleSpec extends Specification {
 
     def environment = Stub(Environment)
     def regexFactory = Stub(PhoneNumberRegexFactory)
-    def validationRule = new ITU_TValidationRule(environment, regexFactory)
+    def validationRule = new BasicValidationRule(environment, regexFactory)
     def regex = Stub(PhoneNumberRegex)
 
     def setup() {
@@ -25,11 +25,11 @@ class ITU_TValidationRuleSpec extends Specification {
     def "should apply to correct phone number"() {
 
         given: "regex passes"
-            regex.apply() >> true
+            regex.applyWithException() >> true
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
 
         when: "rule is applied"
-            def result =  validationRule.apply(phoneNumber)
+           def result =  validationRule.apply(phoneNumber)
 
         then: "result is success"
             result
@@ -51,7 +51,7 @@ class ITU_TValidationRuleSpec extends Specification {
 
         given: "regex throws ValidationException"
             final invalidPhoneNumber = '+1A'
-            regex.apply() >> {throw new ValidationException(INVALID_ITU_T_FORMAT)}
+            regex.applyWithException() >> {throw new ValidationException(INVALID_ITU_T_FORMAT)}
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
 
         when: "rule is applied"

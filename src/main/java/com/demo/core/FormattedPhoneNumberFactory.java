@@ -8,17 +8,25 @@ import java.util.Set;
 @Component
 class FormattedPhoneNumberFactory {
 
-    private final Set<? extends PhoneNumberValidationRule> validationRules;
+    private final ValidatedPhoneNumberFactory validatedPhoneNumberFactory;
+    private final Set<? extends FinalValidationRule> finalValidationRules;
+    private final BasicValidationRule basicValidationRule;
 
     @Autowired
-    FormattedPhoneNumberFactory(Set<? extends PhoneNumberValidationRule> validationRules) {
-        this.validationRules = validationRules;
+    FormattedPhoneNumberFactory(ValidatedPhoneNumberFactory validatedPhoneNumberFactory,
+                                BasicValidationRule basicValidationRule,
+                                Set<? extends FinalValidationRule> finalValidationRules) {
+        this.validatedPhoneNumberFactory = validatedPhoneNumberFactory;
+        this.basicValidationRule = basicValidationRule;
+        this.finalValidationRules = finalValidationRules;
     }
 
     FormattedPhoneNumber of(String phoneNumber) {
         return FormattedPhoneNumber.builder()
                 .number(phoneNumber)
-                .validationRules(validationRules)
+                .validatedPhoneNumberFactory(validatedPhoneNumberFactory)
+                .basicValidationRule(basicValidationRule)
+                .finalValidationRules(finalValidationRules)
                 .build();
     }
 }

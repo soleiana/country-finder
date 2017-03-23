@@ -12,24 +12,31 @@ import java.util.Set;
 public class FormattedPhoneNumber extends PhoneNumber {
 
     private static final String INVALID_PHONE_NUMBER_FORMAT = "invalid phone number format";
-    private final Set<? extends PhoneNumberValidationRule> validationRules;
+
+    private final ValidatedPhoneNumberFactory validatedPhoneNumberFactory;
+    private final BasicValidationRule basicValidationRule;
+    private final Set<? extends FinalValidationRule> finalValidationRules;
 
     @Builder
-    FormattedPhoneNumber(String number, Set<? extends PhoneNumberValidationRule> validationRules) {
+    FormattedPhoneNumber(String number,
+                         ValidatedPhoneNumberFactory validatedPhoneNumberFactory,
+                         BasicValidationRule basicValidationRule,
+                         Set<? extends FinalValidationRule> finalValidationRules) {
         super(number);
-        this.validationRules = validationRules;
+        this.validatedPhoneNumberFactory = validatedPhoneNumberFactory;
+        this.finalValidationRules = finalValidationRules;
+        this.basicValidationRule = basicValidationRule;
     }
 
     public ValidatedPhoneNumber validate() {
-        boolean validationResult = validationRules.stream()
+        basicValidationRule.apply(number);
+        boolean validationResult = finalValidationRules.stream()
                 .map(rule -> rule.apply(number))
                 .anyMatch(result -> result);
 
         if (!validationResult) {
             throw new ValidationException(INVALID_PHONE_NUMBER_FORMAT);
         }
-        return ValidatedPhoneNumber.builder()
-                .number(number)
-                .build();
+        return validatedPhoneNumberFactory.of(number);
     }
 }
