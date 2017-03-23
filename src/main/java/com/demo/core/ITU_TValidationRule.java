@@ -20,7 +20,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @Component
 class ITU_TValidationRule extends PhoneNumberValidationRule {
 
-    private static final String INVALID_BASIC_FORMAT = "invalid basic format";
+    private static final String INVALID_ITU_T_FORMAT = "invalid ITU-T format";
     private static final Pattern PHONE_NUMBER_SPECIAL_CHARACTERS = Pattern.compile("[\\.\\-\\(\\)\\s]");
 
     private static Pattern ITU_TPhoneNumber;
@@ -38,7 +38,7 @@ class ITU_TValidationRule extends PhoneNumberValidationRule {
 
         String numberWithoutSpecialChars = removeSpecialCharacters(phoneNumber);
         String numberWithoutExtension = removeExtension(numberWithoutSpecialChars);
-        return phoneNumberRegexFactory.of(numberWithoutExtension, ITU_TPhoneNumber, INVALID_BASIC_FORMAT)
+        return phoneNumberRegexFactory.of(numberWithoutExtension, ITU_TPhoneNumber, INVALID_ITU_T_FORMAT)
                 .applyWithException();
     }
 

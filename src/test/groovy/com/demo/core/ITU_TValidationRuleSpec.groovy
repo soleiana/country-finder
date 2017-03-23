@@ -8,7 +8,7 @@ import java.util.regex.Pattern
 
 class ITU_TValidationRuleSpec extends Specification {
 
-    static final INVALID_BASIC_FORMAT = 'invalid basic format'
+    static final INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
     static final MIN_DIGITS = 7
     static final MAX_DIGITS = 15
     static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
@@ -55,7 +55,7 @@ class ITU_TValidationRuleSpec extends Specification {
 
         given: "regex throws ValidationException"
             final invalidPhoneNumber = '+1A'
-            regex.applyWithException() >> {throw new ValidationException(INVALID_BASIC_FORMAT)}
+            regex.applyWithException() >> {throw new ValidationException(INVALID_ITU_T_FORMAT)}
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
 
         when: "rule is applied"
@@ -63,6 +63,6 @@ class ITU_TValidationRuleSpec extends Specification {
 
         then: "throw ValidationException"
             def exception = thrown(ValidationException)
-            exception.message == INVALID_BASIC_FORMAT
+            exception.message == INVALID_ITU_T_FORMAT
     }
 }
