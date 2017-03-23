@@ -7,7 +7,7 @@ class RawPhoneNumberSpec extends Specification {
 
     static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
     static final RAW_PHONE_NUMBER = '  371 26  39  48   06'
-    static final FORMATTED_PHONE_NUMBER = '+371 26 39 48 06'
+    static final FORMATTED_PHONE_NUMBER = '+37126394806'
     static final EMPTY_PHONE_NUMBER = '+  '
 
     def formattedPhoneNumberFactory = Mock(FormattedPhoneNumberFactory)
@@ -38,8 +38,6 @@ class RawPhoneNumberSpec extends Specification {
         then:
             thrown(FormatException)
             1 * formattingOperations.apply(EMPTY_PHONE_NUMBER) >> {throw new FormatException(EMPTY_NUMBER_MESSAGE)}
-
-
 
     }
 }
