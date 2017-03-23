@@ -48,7 +48,7 @@ class ITU_TValidationRule extends PhoneNumberValidationRule {
     }
 
     private String removeExtension(String phoneNumber) {
-        int indexOfExtension = phoneNumber.lastIndexOf(extensionDelimiter);
+        int indexOfExtension = phoneNumber.toLowerCase().indexOf(extensionDelimiter);
         return indexOfExtension > -1 ? phoneNumber.substring(0, indexOfExtension - 1) : phoneNumber;
     }
 
