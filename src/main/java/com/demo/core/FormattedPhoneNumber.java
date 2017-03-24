@@ -29,9 +29,9 @@ public final class FormattedPhoneNumber extends PhoneNumber {
 
     public ValidatedPhoneNumber validate() {
         PhoneNumberString formattedNumberString = numberString.formatForBasicValidation();
-        formattedNumberString.accept(basicValidationRule);
+        formattedNumberString.apply(basicValidationRule);
         boolean validationResult = finalValidationRules.stream()
-                .anyMatch(numberString::accept);
+                .anyMatch(numberString::apply);
 
         if (!validationResult) {
             throw new ValidationException(INVALID_PHONE_NUMBER_FORMAT);

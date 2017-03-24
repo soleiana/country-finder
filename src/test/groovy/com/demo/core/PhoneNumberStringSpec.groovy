@@ -1,13 +1,71 @@
 package com.demo.core
 
 import com.demo.exceptions.FormatException
+import com.demo.exceptions.ValidationException
 import spock.lang.Specification
 
 class PhoneNumberStringSpec extends Specification {
 
+    static final INVALID_ITU_T_FORMAT = 'invalid ITU-T format'
     static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
+    static final PHONE_NUMBER = '+371 12345678'
+    static final INVALID_PHONE_NUMBER = '+371 1234567A'
+    static final INVALID_ITU_T_PHONE_NUMBER = '+371 12345(678)'
 
+    PhoneNumberValidationRule validationRule
     PhoneNumberString phoneNumberString
+
+    def "should apply validation rule"() {
+
+        given: "basic validation rule is provided"
+            phoneNumberString = new PhoneNumberString(PHONE_NUMBER)
+            validationRule = Mock(BasicValidationRule)
+
+        when: "apply rule"
+            def result = phoneNumberString.apply(validationRule)
+
+        then: "pass rule"
+            1 * validationRule.apply(PHONE_NUMBER) >> true
+
+        and: "result is success"
+            result
+    }
+
+    def "should throw exception if validation rule throws exception"() {
+
+        given: "basic validation rule is provided"
+            phoneNumberString = new PhoneNumberString(INVALID_PHONE_NUMBER)
+            validationRule = Mock(BasicValidationRule)
+
+        when: "apply rule"
+            phoneNumberString.apply(validationRule)
+
+        then: "invoke rule and throw ValidationException"
+            1 * validationRule.apply(INVALID_PHONE_NUMBER) >> {
+                throw new ValidationException(INVALID_ITU_T_FORMAT)
+            }
+
+        then: "throw Validation exception"
+            def exception = thrown(ValidationException)
+            exception.message == INVALID_ITU_T_FORMAT
+
+    }
+
+    def "should fail if validation rule fails"() {
+
+        given: "ITU-T validation rule is provided"
+            phoneNumberString = new PhoneNumberString(INVALID_ITU_T_PHONE_NUMBER)
+            validationRule = Mock(BasicValidationRule)
+
+        when: "apply rule"
+            def result = phoneNumberString.apply(validationRule)
+
+        then: "fail rule"
+             1 * validationRule.apply(INVALID_ITU_T_PHONE_NUMBER) >> false
+
+        and: "result is failure"
+            !result
+    }
 
     def "should format phone number for final validation"() {
 

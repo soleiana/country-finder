@@ -30,7 +30,7 @@ class PhoneNumberString {
         return phoneNumber;
     }
 
-    boolean accept(PhoneNumberValidationRule validationRule) {
+    boolean apply(PhoneNumberValidationRule validationRule) {
         return validationRule.apply(phoneNumber);
     }
 

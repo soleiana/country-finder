@@ -33,7 +33,7 @@ class FormattedPhoneNumberSpec extends Specification {
     def "should throw ValidationException if phone number does not comply basic validation rule"() {
         given: "formatted ITU-T invalid phone number"
 
-            formattedNumberString.accept(basicValidationRule) >> {
+            formattedNumberString.apply(basicValidationRule) >> {
                 throw new ValidationException(INVALID_ITU_T_FORMAT)
             }
 
@@ -51,10 +51,10 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.accept(basicValidationRule) >> true
+            1 * formattedNumberString.apply(basicValidationRule) >> true
 
         and: "fail all the final validation rules"
-            3 * numberString.accept(_ as FinalValidationRule) >> false
+            3 * numberString.apply(_ as FinalValidationRule) >> false
 
         then: "throw ValidationException"
             def exception = thrown(ValidationException)
@@ -67,14 +67,14 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.accept(basicValidationRule) >> true
+            1 * formattedNumberString.apply(basicValidationRule) >> true
 
         then: "pass ITU-T rule"
-            1 * numberString.accept(itu_tValidationRule) >> true
+            1 * numberString.apply(itu_tValidationRule) >> true
 
         and: "no other rules are applied"
-            0 * numberString.accept(nanpValidationRule)
-            0 * numberString.accept(eppValidationRule)
+            0 * numberString.apply(nanpValidationRule)
+            0 * numberString.apply(eppValidationRule)
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(_ as PhoneNumberString)
@@ -87,16 +87,16 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.accept(basicValidationRule) >> true
+            1 * formattedNumberString.apply(basicValidationRule) >> true
 
         then: "fail ITU-T rule"
-            1 * numberString.accept(itu_tValidationRule) >> false
+            1 * numberString.apply(itu_tValidationRule) >> false
 
         then: "fail NANP rule"
-            1 * numberString.accept(nanpValidationRule) >> false
+            1 * numberString.apply(nanpValidationRule) >> false
 
         then: "pass EPP rule"
-            1 * numberString.accept(eppValidationRule) >> true
+            1 * numberString.apply(eppValidationRule) >> true
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(_ as PhoneNumberString)
@@ -108,16 +108,16 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.accept(basicValidationRule) >> true
+            1 * formattedNumberString.apply(basicValidationRule) >> true
 
         then: "fail ITU-T rule"
-            1 * numberString.accept(itu_tValidationRule) >> false
+            1 * numberString.apply(itu_tValidationRule) >> false
 
         then: "pass NANP rule"
-            1 * numberString.accept(nanpValidationRule) >> true
+            1 * numberString.apply(nanpValidationRule) >> true
 
         and: "no other rules are applied"
-            0 * numberString.accept(eppValidationRule)
+            0 * numberString.apply(eppValidationRule)
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(_ as PhoneNumberString)
