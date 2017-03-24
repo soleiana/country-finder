@@ -20,7 +20,7 @@ public class CountryResource {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public Country getCountryByPhoneNumber(@NotNull @RequestParam(value = "phoneNumber") String phoneNumber){
+    public Country findCountryByPhoneNumber(@NotNull @RequestParam(value = "phoneNumber") String phoneNumber){
         return requestFactory.of(phoneNumber)
                 .execute()
                 .toCountry();

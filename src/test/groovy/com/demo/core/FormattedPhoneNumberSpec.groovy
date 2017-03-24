@@ -15,13 +15,16 @@ class FormattedPhoneNumberSpec extends Specification {
 
     def finalValidationRules = [itu_tValidationRule, nanpValidationRule, eppValidationRule] as Set
     def validatedPhoneNumberFactory = Mock(ValidatedPhoneNumberFactory)
+
     def numberString = Mock(PhoneNumberString)
-    def formattedNumberString = Mock(PhoneNumberString)
+    def numberStringAsDigits = Mock(PhoneNumberString)
 
     FormattedPhoneNumber formattedPhoneNumber
 
     def setup() {
-        numberString.formatForBasicValidation() >> formattedNumberString
+        def numberStringWithoutSpecialCharacters = Mock(PhoneNumberString)
+        numberString.withoutSpecialCharacters() >> numberStringWithoutSpecialCharacters
+        numberStringWithoutSpecialCharacters.withoutExtension() >> numberStringAsDigits
 
         formattedPhoneNumber = new FormattedPhoneNumber(numberString,
                 validatedPhoneNumberFactory,
@@ -29,18 +32,17 @@ class FormattedPhoneNumberSpec extends Specification {
                 finalValidationRules)
     }
 
-
     def "should throw ValidationException if phone number does not comply basic validation rule"() {
         given: "formatted ITU-T invalid phone number"
 
-            formattedNumberString.apply(basicValidationRule) >> {
+            numberStringAsDigits.apply(basicValidationRule) >> {
                 throw new ValidationException(INVALID_ITU_T_FORMAT)
             }
 
         when: "validate"
             formattedPhoneNumber.validate()
 
-        then: "apply basic validation rule and throw ValidationException"
+        then: "ValidationException thrown"
             def exception = thrown(ValidationException)
             exception.message == INVALID_ITU_T_FORMAT
         }
@@ -51,12 +53,12 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.apply(basicValidationRule) >> true
+            1 * numberStringAsDigits.apply(basicValidationRule) >> true
 
         and: "fail all the final validation rules"
             3 * numberString.apply(_ as FinalValidationRule) >> false
 
-        then: "throw ValidationException"
+        then: "ValidationException thrown"
             def exception = thrown(ValidationException)
             exception.message == INVALID_PHONE_NUMBER_FORMAT
     }
@@ -67,7 +69,7 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.apply(basicValidationRule) >> true
+            1 * numberStringAsDigits.apply(basicValidationRule) >> true
 
         then: "pass ITU-T rule"
             1 * numberString.apply(itu_tValidationRule) >> true
@@ -78,7 +80,6 @@ class FormattedPhoneNumberSpec extends Specification {
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(_ as PhoneNumberString)
-
     }
 
     def "should create validated phone number if it complies basic validation rule and EPP rule"() {
@@ -87,7 +88,7 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.apply(basicValidationRule) >> true
+            1 * numberStringAsDigits.apply(basicValidationRule) >> true
 
         then: "fail ITU-T rule"
             1 * numberString.apply(itu_tValidationRule) >> false
@@ -108,7 +109,7 @@ class FormattedPhoneNumberSpec extends Specification {
             formattedPhoneNumber.validate()
 
         then: "pass basic validation rule"
-            1 * formattedNumberString.apply(basicValidationRule) >> true
+            1 * numberStringAsDigits.apply(basicValidationRule) >> true
 
         then: "fail ITU-T rule"
             1 * numberString.apply(itu_tValidationRule) >> false

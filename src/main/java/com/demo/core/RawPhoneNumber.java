@@ -17,7 +17,11 @@ public final class RawPhoneNumber extends PhoneNumber {
     }
 
     public FormattedPhoneNumber format() {
-        PhoneNumberString formattedNumber = numberString.formatForFinalValidation();
-        return formattedPhoneNumberFactory.of(formattedNumber);
+        PhoneNumberString numberStringAsNonSpaceCharacters = numberString
+                .withoutSpaceCharacters()
+                .withInternationalCallPrefix()
+                .checkFormat();
+
+        return formattedPhoneNumberFactory.of(numberStringAsNonSpaceCharacters);
     }
 }

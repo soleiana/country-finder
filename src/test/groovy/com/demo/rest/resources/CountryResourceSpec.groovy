@@ -17,7 +17,7 @@ class CountryResourceSpec extends Specification {
             requestFactory.of(_ as String) >> request
 
         when: "user inputs correct international phone number"
-            def country = resource.getCountryByPhoneNumber(PHONE_NUMBER)
+            def country = resource.findCountryByPhoneNumber(PHONE_NUMBER)
 
         then:
             1 * request.execute() >> response

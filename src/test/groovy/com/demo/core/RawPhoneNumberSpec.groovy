@@ -9,7 +9,9 @@ class RawPhoneNumberSpec extends Specification {
 
     def formattedPhoneNumberFactory = Mock(FormattedPhoneNumberFactory)
     def numberString = Mock(PhoneNumberString)
-    def formattedNumberString = Mock(PhoneNumberString)
+    def numberStringAsNonSpaceCharacters = Mock(PhoneNumberString)
+    def numberStringWithoutSpaceCharacters = Mock(PhoneNumberString)
+    def numberStringWithCallPrefix = Mock(PhoneNumberString)
 
     RawPhoneNumber rawPhoneNumber = new RawPhoneNumber(numberString, formattedPhoneNumberFactory)
 
@@ -22,11 +24,17 @@ class RawPhoneNumberSpec extends Specification {
         when: "format"
             rawPhoneNumber.format()
 
-        then: "format phone number for final validation"
-            1 * numberString.formatForFinalValidation() >> formattedNumberString
+        then: "remove space characters"
+            1 * numberString.withoutSpaceCharacters() >> numberStringWithoutSpaceCharacters
 
-        then: "create formatted phone number"
-            1 * formattedPhoneNumberFactory.of(formattedNumberString)
+        then: "add international call prefix"
+            1 * numberStringWithoutSpaceCharacters.withInternationalCallPrefix() >> numberStringWithCallPrefix
+
+        then: "check format"
+            1 * numberStringWithCallPrefix.checkFormat() >> numberStringAsNonSpaceCharacters
+
+        and: "create formatted phone number"
+            1 * formattedPhoneNumberFactory.of(numberStringAsNonSpaceCharacters)
     }
 
     def "should throw FormatException if empty phone number"() {
@@ -34,12 +42,18 @@ class RawPhoneNumberSpec extends Specification {
         when: "format"
             rawPhoneNumber.format()
 
+        then: "remove space characters"
+            1 * numberString.withoutSpaceCharacters() >> numberStringWithoutSpaceCharacters
+
+        then: "add international call prefix"
+            1 * numberStringWithoutSpaceCharacters.withInternationalCallPrefix() >> numberStringWithCallPrefix
+
         then: "throw FormatException"
-            1 * numberString.formatForFinalValidation() >> {
+            1 * numberStringWithCallPrefix.checkFormat() >> {
                 throw new FormatException(EMPTY_NUMBER_MESSAGE)
             }
 
-        then: "FormatException thrown"
+        and: "FormatException thrown"
             def exception = thrown(FormatException)
             exception.message == EMPTY_NUMBER_MESSAGE
     }

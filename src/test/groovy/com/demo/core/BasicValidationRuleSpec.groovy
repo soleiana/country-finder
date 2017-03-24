@@ -16,7 +16,7 @@ class BasicValidationRuleSpec extends Specification {
     def "should apply to correct phone number"() {
 
         given: "regex passes"
-            final formattedPhoneNumber = '37112345678'
+            final formattedPhoneNumber = '+37112345678'
             regex.applyWithException() >> true
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
 
@@ -30,7 +30,7 @@ class BasicValidationRuleSpec extends Specification {
     def "should throw ValidationException if regex fails"() {
 
         given: "regex throws ValidationException"
-            final formattedPhoneNumber = '12345'
+            final formattedPhoneNumber = '+12345'
             regex.applyWithException() >> {throw new ValidationException(INVALID_ITU_T_FORMAT)}
             regexFactory.of(_ as String, _ as Pattern, _ as String) >> regex
 

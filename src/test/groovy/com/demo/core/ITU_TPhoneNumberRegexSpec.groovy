@@ -37,7 +37,7 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
         when: "ITU-T strict regex is applied"
             phoneNumberRegex.applyWithException()
 
-        then: "throw ValidationException"
+        then: "ValidationException thrown"
             def exception = thrown(ValidationException)
             exception.message == INVALID_ITU_T_FORMAT
 
@@ -59,7 +59,7 @@ class ITU_TPhoneNumberRegexSpec extends Specification {
         when: "ITU-T strict regex is applied"
             phoneNumberRegex.applyWithException()
 
-        then: "throw ValidationException"
+        then: "ValidationException thrown"
             def exception = thrown(ValidationException)
             exception.message == INVALID_ITU_T_FORMAT
 

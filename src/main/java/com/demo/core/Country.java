@@ -5,10 +5,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Builder
 @ToString
 @EqualsAndHashCode
-public final class Country {
+public final class Country implements Serializable {
 
     @NonNull
     private final String name;

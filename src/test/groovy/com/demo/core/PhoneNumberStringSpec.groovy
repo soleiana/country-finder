@@ -45,10 +45,9 @@ class PhoneNumberStringSpec extends Specification {
                 throw new ValidationException(INVALID_ITU_T_FORMAT)
             }
 
-        then: "throw Validation exception"
+        then: "ValidationException thrown"
             def exception = thrown(ValidationException)
             exception.message == INVALID_ITU_T_FORMAT
-
     }
 
     def "should fail if validation rule fails"() {
@@ -67,29 +66,51 @@ class PhoneNumberStringSpec extends Specification {
             !result
     }
 
-    def "should format phone number for final validation"() {
+    def "should remove white space characters from phone number"() {
 
         given: "non empty phone number"
             phoneNumberString = new PhoneNumberString(phoneNumber)
 
-        when: "format for final validation"
-            def formattedPhoneNumber = phoneNumberString.formatForFinalValidation().toNumber()
+        when: "remove space characters"
+            def formattedPhoneNumber = phoneNumberString
+                    .withoutSpaceCharacters()
+                    .toNumber()
 
-        then: "create stripped of space characters phone number with the leading plus"
+        then: "create phone number without space characters"
             expectedPhoneNumber == formattedPhoneNumber
         where:
             phoneNumber             || expectedPhoneNumber
             '+371 12345678'         || '+37112345678'
-            '371  123\t  45  678'   || '+37112345678'
-            ' 371 12345678 '        || '+37112345678'
-            '\t371 12345678\t'      || '+37112345678'
-            '+  371 12345678'       || '+37112345678'
+            '\t371 12345678 '       || '37112345678'
+            '\t371 12345678\t'      || '37112345678'
+            '+  371 \n12345678'     || '+37112345678'
             ' +371 12345678'        || '+37112345678'
-            '+1 (123)   456 7890'   || '+1(123)4567890'
-            '+1 - (123) 456 7890'   || '+1-(123)4567890'
-            '+1-( 123 ) 4567890'    || '+1-(123)4567890'
-            '+1 .  123456.7890'     || '+1.123456.7890'
-            '+123 .1234 x 123'      || '+123.1234x123'
+            '\n\t 1 (123) 456 7890' || '1(123)4567890'
+            '\t \n  \t\t'           || ''
+            ' '                     || ''
+    }
+
+    def "should add international call prefix (if missing) to phone number"() {
+
+        given: "non empty phone number"
+             phoneNumberString = new PhoneNumberString(phoneNumber)
+
+        when: "add call prefix"
+            def formattedPhoneNumber = phoneNumberString
+                .withInternationalCallPrefix()
+                .toNumber()
+
+        then: "create phone number with prefix"
+            expectedPhoneNumber == formattedPhoneNumber
+        where:
+             phoneNumber             || expectedPhoneNumber
+            '+371 12345678'         || '+371 12345678'
+            '371 12345678'          || '+371 12345678'
+             ' 371 12345678'         || '+ 371 12345678'
+            '\t371 12345678\t'      || '+\t371 12345678\t'
+            '  '                     || '+  '
+            ''                      || '+'
+            '+'                     || '+'
     }
 
     def "should throw FormatException if empty phone number"() {
@@ -98,31 +119,30 @@ class PhoneNumberStringSpec extends Specification {
             phoneNumberString = new PhoneNumberString(phoneNumber)
 
         when: "format for final validation"
-            phoneNumberString.formatForFinalValidation()
+            phoneNumberString.checkFormat()
 
-        then: "throw FormatException"
+        then: "FormatException thrown"
             def exception = thrown(FormatException)
             exception.message == EMPTY_NUMBER_MESSAGE
 
         where:
             phoneNumber     | _
             ''              | _
-            ' '             | _
-            '   '           | _
             '+'             | _
-            ' + '           | _
-            ' \t '          | _
+            'a'             | _
     }
 
-    def "should format phone number for basic validation"() {
+    def "should remove special characters from phone number"() {
 
         given: "non empty phone number"
             phoneNumberString = new PhoneNumberString(phoneNumber)
 
-        when: "format for basic validation"
-            def formattedPhoneNumber = phoneNumberString.formatForBasicValidation().toNumber()
+        when: "remove special characters: '.', '(', ')', '\\s', '-'"
+            def formattedPhoneNumber = phoneNumberString
+                    .withoutSpecialCharacters()
+                    .toNumber()
 
-        then: "create stripped of space special characters and extension phone number"
+        then: "create phone number without special characters"
             expectedPhoneNumber == formattedPhoneNumber
         where:
             phoneNumber             || expectedPhoneNumber
@@ -131,13 +151,35 @@ class PhoneNumberStringSpec extends Specification {
             '+1-(123)4567890'       || '+11234567890'
             '+1-(123)4567890'       || '+11234567890'
             '+1.123456.7890'        || '+11234567890'
-            '+123.12345x12345'      || '+12312345'
-            '+123.12345X1234'       || '+12312345'
-            '+123.12345xX1234'      || '+12312345'
+            '+123.12345x12345'      || '+12312345x12345'
             '\t'                    || ''
             '+ '                    || '+'
             '(.) + -  '             || '+'
             ''                      || ''
-            '.x123'                 || ''
+            '.x123'                 || 'x123'
+    }
+
+    def "should remove extension from phone number"() {
+
+        given: "non empty phone number"
+            phoneNumberString = new PhoneNumberString(phoneNumber)
+
+        when: "remove extension"
+            def formattedPhoneNumber = phoneNumberString
+                .withoutExtension()
+                .toNumber()
+
+        then: "create phone number without extension"
+            expectedPhoneNumber == formattedPhoneNumber
+        where:
+            phoneNumber             || expectedPhoneNumber
+            '+12312345x12345'       || '+12312345'
+            '+123.1234x12345'       || '+123.1234'
+            '  123.1234x12345'      || '  123.1234'
+            '123.1234X12345'        || '123.1234'
+            '123.1234x123x5'        || '123.1234'
+            '+123.1234'             || '+123.1234'
+            ''                      || ''
+            '.x123'                 || '.'
     }
 }

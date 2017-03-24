@@ -6,9 +6,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public final class ValidatedPhoneNumber extends PhoneNumber {
 
+    private final Countries countries;
+
     @Builder
-    ValidatedPhoneNumber(PhoneNumberString numberString) {
+    ValidatedPhoneNumber(PhoneNumberString numberString, Countries countries) {
         super(numberString);
+        this.countries = countries;
     }
 
     public Country findCountry() {

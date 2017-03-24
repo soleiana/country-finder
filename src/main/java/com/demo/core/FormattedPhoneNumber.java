@@ -28,14 +28,17 @@ public final class FormattedPhoneNumber extends PhoneNumber {
     }
 
     public ValidatedPhoneNumber validate() {
-        PhoneNumberString formattedNumberString = numberString.formatForBasicValidation();
-        formattedNumberString.apply(basicValidationRule);
+        PhoneNumberString numberStringAsDigits = numberString
+                .withoutSpecialCharacters()
+                .withoutExtension();
+
+        numberStringAsDigits.apply(basicValidationRule);
         boolean validationResult = finalValidationRules.stream()
                 .anyMatch(numberString::apply);
 
         if (!validationResult) {
             throw new ValidationException(INVALID_PHONE_NUMBER_FORMAT);
         }
-        return validatedPhoneNumberFactory.of(numberString);
+        return validatedPhoneNumberFactory.of(numberStringAsDigits);
     }
 }

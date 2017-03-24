@@ -34,17 +34,33 @@ class PhoneNumberString {
         return validationRule.apply(phoneNumber);
     }
 
-    PhoneNumberString formatForFinalValidation() {
-        String numberWithoutSpaceCharacters = removeSpecialCharacters(phoneNumber, SPACE_CHARACTERS);
-        String formattedNumber = addInternationalCallPrefix(numberWithoutSpaceCharacters);
-        checkFormat(formattedNumber);
-        return of(formattedNumber);
+    PhoneNumberString withInternationalCallPrefix() {
+        String numberWithCallPrefix = addInternationalCallPrefix(phoneNumber);
+        return of(numberWithCallPrefix);
     }
 
-    PhoneNumberString formatForBasicValidation() {
-        String numberWithoutSpecialCharacters = removeSpecialCharacters(phoneNumber, PHONE_NUMBER_SPECIAL_CHARACTERS);
-        String formattedNumber = removeExtension(numberWithoutSpecialCharacters);
-        return of(formattedNumber);
+    PhoneNumberString withoutSpaceCharacters() {
+        String numberWithoutSpaceCharacters = removeCharacters(phoneNumber, SPACE_CHARACTERS);
+        return of(numberWithoutSpaceCharacters);
+    }
+
+    PhoneNumberString withoutSpecialCharacters() {
+        String numberWithoutSpecialCharacters = removeCharacters(phoneNumber, PHONE_NUMBER_SPECIAL_CHARACTERS);
+        return of(numberWithoutSpecialCharacters);
+    }
+
+    PhoneNumberString withoutExtension() {
+        int indexOfExtension = phoneNumber.toLowerCase().indexOf(PHONE_NUMBER_EXTENSION_DELIMITER);
+        String numberWithoutExtension = indexOfExtension > -1 ? phoneNumber.substring(0, indexOfExtension) : phoneNumber;
+        return of(numberWithoutExtension);
+    }
+
+    PhoneNumberString checkFormat() {
+        int prefixLength = INTERNATIONAL_CALL_PREFIX.length();
+        if (phoneNumber.length() <= prefixLength) {
+            throw new FormatException(EMPTY_NUMBER_MESSAGE);
+        }
+        return of(phoneNumber);
     }
 
     private PhoneNumberString of(String phoneNumber) {
@@ -53,25 +69,13 @@ class PhoneNumberString {
                 .build();
     }
 
-    private String removeSpecialCharacters(String phoneNumber, Pattern charactersToRemove) {
+    private String removeCharacters(String phoneNumber, Pattern charactersToRemove) {
         return charactersToRemove.matcher(phoneNumber)
                 .replaceAll("");
     }
 
-    private String removeExtension(String phoneNumber) {
-        int indexOfExtension = phoneNumber.toLowerCase().indexOf(PHONE_NUMBER_EXTENSION_DELIMITER);
-        return indexOfExtension > -1 ? phoneNumber.substring(0, indexOfExtension) : phoneNumber;
-    }
-
     private String addInternationalCallPrefix(String phoneNumber) {
         return prependIfMissing(phoneNumber, INTERNATIONAL_CALL_PREFIX);
-    }
-
-    private void checkFormat(String formattedPhoneNumber) {
-        int prefixLength = INTERNATIONAL_CALL_PREFIX.length();
-        if (formattedPhoneNumber.length() == prefixLength) {
-                throw new FormatException(EMPTY_NUMBER_MESSAGE);
-        }
     }
 
 }

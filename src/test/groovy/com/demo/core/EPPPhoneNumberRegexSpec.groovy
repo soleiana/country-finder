@@ -21,7 +21,7 @@ class EPPPhoneNumberRegexSpec extends Specification {
         then: "result is success"
             result
         where:
-        phoneNumber                     | _
+            phoneNumber                 | _
             '+1.1234'                   | _
             '+123.12345678901234'       | _
             '+123.12345x12345'          | _
