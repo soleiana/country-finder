@@ -15,7 +15,7 @@ class PhoneNumberStringSpec extends Specification {
             phoneNumberString = new PhoneNumberString(phoneNumber)
 
         when: "format for final validation"
-            def formattedPhoneNumber = phoneNumberString.formatForFinalValidation()
+            def formattedPhoneNumber = phoneNumberString.formatForFinalValidation().toNumber()
 
         then: "create stripped of space characters phone number with the leading plus"
             expectedPhoneNumber == formattedPhoneNumber
@@ -62,7 +62,7 @@ class PhoneNumberStringSpec extends Specification {
             phoneNumberString = new PhoneNumberString(phoneNumber)
 
         when: "format for basic validation"
-            def formattedPhoneNumber = phoneNumberString.formatForBasicValidation()
+            def formattedPhoneNumber = phoneNumberString.formatForBasicValidation().toNumber()
 
         then: "create stripped of space special characters and extension phone number"
             expectedPhoneNumber == formattedPhoneNumber

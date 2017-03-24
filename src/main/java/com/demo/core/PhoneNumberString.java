@@ -26,20 +26,31 @@ class PhoneNumberString {
     @NonNull
     private final String phoneNumber;
 
-    String asNumber() {
+    String toNumber() {
         return phoneNumber;
     }
 
-    String formatForFinalValidation() {
+    boolean accept(PhoneNumberValidationRule validationRule) {
+        return validationRule.apply(phoneNumber);
+    }
+
+    PhoneNumberString formatForFinalValidation() {
         String numberWithoutSpaceCharacters = removeSpecialCharacters(phoneNumber, SPACE_CHARACTERS);
         String formattedNumber = addInternationalCallPrefix(numberWithoutSpaceCharacters);
         checkFormat(formattedNumber);
-        return formattedNumber;
+        return of(formattedNumber);
     }
 
-    String formatForBasicValidation() {
+    PhoneNumberString formatForBasicValidation() {
         String numberWithoutSpecialCharacters = removeSpecialCharacters(phoneNumber, PHONE_NUMBER_SPECIAL_CHARACTERS);
-        return removeExtension(numberWithoutSpecialCharacters);
+        String formattedNumber = removeExtension(numberWithoutSpecialCharacters);
+        return of(formattedNumber);
+    }
+
+    private PhoneNumberString of(String phoneNumber) {
+        return PhoneNumberString.builder()
+                .phoneNumber(phoneNumber)
+                .build();
     }
 
     private String removeSpecialCharacters(String phoneNumber, Pattern charactersToRemove) {

@@ -17,7 +17,7 @@ public final class RawPhoneNumber extends PhoneNumber {
     }
 
     public FormattedPhoneNumber format() {
-        String formattedNumber = numberString.formatForFinalValidation();
+        PhoneNumberString formattedNumber = numberString.formatForFinalValidation();
         return formattedPhoneNumberFactory.of(formattedNumber);
     }
 }

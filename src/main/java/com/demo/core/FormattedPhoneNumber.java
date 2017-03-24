@@ -28,15 +28,14 @@ public final class FormattedPhoneNumber extends PhoneNumber {
     }
 
     public ValidatedPhoneNumber validate() {
-        String formattedNumber = numberString.formatForBasicValidation();
-        basicValidationRule.apply(formattedNumber);
+        PhoneNumberString formattedNumberString = numberString.formatForBasicValidation();
+        formattedNumberString.accept(basicValidationRule);
         boolean validationResult = finalValidationRules.stream()
-                .map(rule -> rule.apply(numberString.asNumber()))
-                .anyMatch(result -> result);
+                .anyMatch(numberString::accept);
 
         if (!validationResult) {
             throw new ValidationException(INVALID_PHONE_NUMBER_FORMAT);
         }
-        return validatedPhoneNumberFactory.of(numberString.asNumber());
+        return validatedPhoneNumberFactory.of(numberString);
     }
 }

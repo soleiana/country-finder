@@ -19,7 +19,7 @@ public final class Country {
                 .build();
     }
 
-    String asName() {
+    String toName() {
         return name;
     }
 }
