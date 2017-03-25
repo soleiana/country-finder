@@ -6,17 +6,17 @@ import org.springframework.stereotype.Component;
 @Component
 class ValidatedPhoneNumberFactory {
 
-    private final Countries countries;
+    private final CountrySearch countrySearch;
 
     @Autowired
-    public ValidatedPhoneNumberFactory(Countries countries) {
-        this.countries = countries;
+    public ValidatedPhoneNumberFactory(CountrySearch countrySearch) {
+        this.countrySearch = countrySearch;
     }
 
     ValidatedPhoneNumber of(ValidatedNumberString numberString) {
         return ValidatedPhoneNumber.builder()
                 .numberString(numberString)
-                .countries(countries)
+                .countrySearch(countrySearch)
                 .build();
     }
 }

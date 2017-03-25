@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class RawPhoneNumberSpec extends Specification {
 
-    static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
+    static final EMPTY_NUMBER = 'phone number is empty'
 
     def formattedPhoneNumberFactory = Mock(FormattedPhoneNumberFactory)
     def numberString = Mock(RawNumberString)
@@ -55,12 +55,12 @@ class RawPhoneNumberSpec extends Specification {
 
         then: "throw FormatException"
             1 * numberStringWithCallPrefix.checkFormat() >> {
-                throw new FormatException(EMPTY_NUMBER_MESSAGE)
+                throw new FormatException(EMPTY_NUMBER)
             }
 
         and: "FormatException thrown"
             def exception = thrown(FormatException)
-            exception.message == EMPTY_NUMBER_MESSAGE
+            exception.message == EMPTY_NUMBER
     }
 
 }

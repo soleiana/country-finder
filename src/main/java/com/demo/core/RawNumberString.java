@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.prependIfMissing;
 import static org.apache.commons.lang3.StringUtils.removeAll;
 
@@ -14,7 +15,7 @@ class RawNumberString extends PhoneNumberString {
 
     private static final String SPACE_CHARACTERS = "\\s";
     private static final String INTERNATIONAL_CALL_PREFIX = "+";
-    private static final String EMPTY_NUMBER_MESSAGE = "phone number is empty";
+    private static final String EMPTY_NUMBER = "phone number is empty";
 
     @Builder
     RawNumberString(String phoneNumber) {
@@ -33,8 +34,10 @@ class RawNumberString extends PhoneNumberString {
 
     RawNumberString checkFormat() {
         int prefixLength = INTERNATIONAL_CALL_PREFIX.length();
-        if (phoneNumber.length() <= prefixLength) {
-            throw new FormatException(EMPTY_NUMBER_MESSAGE);
+        try {
+            checkArgument(phoneNumber.length() > prefixLength);
+        } catch (IllegalArgumentException exception) {
+            throw new FormatException(EMPTY_NUMBER);
         }
         return of(phoneNumber);
     }

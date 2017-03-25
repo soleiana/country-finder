@@ -10,12 +10,10 @@ import lombok.ToString;
 public final class ValidatedPhoneNumber {
 
     private final ValidatedNumberString numberString;
-    private final Countries countries;
+    private final CountrySearch countrySearch;
 
     public Country findCountry() {
-        String countryName = "Latvia";
-        return Country.builder()
-                .name(countryName)
-                .build();
+        return numberString.withoutInternationalCallPrefix()
+                .apply(countrySearch);
     }
 }

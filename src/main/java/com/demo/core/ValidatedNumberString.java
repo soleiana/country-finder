@@ -21,15 +21,13 @@ class ValidatedNumberString extends PhoneNumberString {
         return validationRule.apply(phoneNumber);
     }
 
+    Country apply(CountrySearch countrySearch) {
+        return countrySearch.apply(phoneNumber);
+    }
+
     ValidatedNumberString withoutInternationalCallPrefix() {
         String numberStringWithoutCallPrefix = remove(phoneNumber, INTERNATIONAL_CALL_PREFIX);
         return of(numberStringWithoutCallPrefix);
-    }
-
-    Country build() {
-        return Country.builder()
-                .name("Latvia")
-                .build();
     }
 
     private ValidatedNumberString of(String phoneNumber) {

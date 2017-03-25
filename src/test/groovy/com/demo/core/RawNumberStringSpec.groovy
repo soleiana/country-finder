@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class RawNumberStringSpec extends Specification {
 
-    static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
+    static final EMPTY_NUMBER = 'phone number is empty'
     RawNumberString phoneNumberString
 
 
@@ -63,7 +63,7 @@ class RawNumberStringSpec extends Specification {
 
         then: "FormatException thrown"
             def exception = thrown(FormatException)
-            exception.message == EMPTY_NUMBER_MESSAGE
+            exception.message == EMPTY_NUMBER
 
         where:
             phoneNumber     | _
