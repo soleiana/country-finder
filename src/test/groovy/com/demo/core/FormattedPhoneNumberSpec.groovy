@@ -23,13 +23,10 @@ class FormattedPhoneNumberSpec extends Specification {
 
     def setup() {
         def numberStringWithoutSpecialCharacters = Mock(PhoneNumberString)
-        numberString.withoutSpecialCharacters() >> numberStringWithoutSpecialCharacters
-        numberStringWithoutSpecialCharacters.withoutExtension() >> numberStringAsDigits
+        1 * numberString.withoutSpecialCharacters() >> numberStringWithoutSpecialCharacters
+        1 * numberStringWithoutSpecialCharacters.withoutExtension() >> numberStringAsDigits
 
-        formattedPhoneNumber = new FormattedPhoneNumber(numberString,
-                validatedPhoneNumberFactory,
-                basicValidationRule,
-                finalValidationRules)
+        formattedPhoneNumber = createPhoneNumber()
     }
 
     def "should throw ValidationException if phone number does not comply basic validation rule"() {
@@ -75,8 +72,10 @@ class FormattedPhoneNumberSpec extends Specification {
             1 * numberString.apply(itu_tValidationRule) >> true
 
         and: "no other rules are applied"
-            0 * numberString.apply(nanpValidationRule)
-            0 * numberString.apply(eppValidationRule)
+            with(numberString) {
+                0 * apply(nanpValidationRule)
+                0 * apply(eppValidationRule)
+            }
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(_ as PhoneNumberString)
@@ -122,6 +121,13 @@ class FormattedPhoneNumberSpec extends Specification {
 
         and: "create validated phone number"
             1 * validatedPhoneNumberFactory.of(_ as PhoneNumberString)
+    }
+
+    def createPhoneNumber() {
+        new FormattedPhoneNumber(numberString,
+                validatedPhoneNumberFactory,
+                basicValidationRule,
+                finalValidationRules)
     }
 
 }
