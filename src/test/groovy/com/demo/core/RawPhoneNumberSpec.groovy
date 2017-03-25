@@ -8,10 +8,12 @@ class RawPhoneNumberSpec extends Specification {
     static final EMPTY_NUMBER_MESSAGE = 'phone number is empty'
 
     def formattedPhoneNumberFactory = Mock(FormattedPhoneNumberFactory)
-    def numberString = Mock(PhoneNumberString)
-    def numberStringAsNonSpaceCharacters = Mock(PhoneNumberString)
-    def numberStringWithoutSpaceCharacters = Mock(PhoneNumberString)
-    def numberStringWithCallPrefix = Mock(PhoneNumberString)
+    def numberString = Mock(RawNumberString)
+    def numberStringWithoutSpaceCharacters = Mock(RawNumberString)
+    def numberStringWithCallPrefix = Mock(RawNumberString)
+    def checkedNumberString = Mock(RawNumberString)
+
+    def formattedNumberString = Mock(FormattedNumberString)
 
     RawPhoneNumber rawPhoneNumber = new RawPhoneNumber(numberString, formattedPhoneNumberFactory)
 
@@ -31,10 +33,13 @@ class RawPhoneNumberSpec extends Specification {
             1 * numberStringWithoutSpaceCharacters.withInternationalCallPrefix() >> numberStringWithCallPrefix
 
         then: "check format"
-            1 * numberStringWithCallPrefix.checkFormat() >> numberStringAsNonSpaceCharacters
+            1 * numberStringWithCallPrefix.checkFormat() >> checkedNumberString
+
+        then: "build formatted phone number"
+            1 * checkedNumberString.build() >> formattedNumberString
 
         and: "create formatted phone number"
-            1 * formattedPhoneNumberFactory.of(numberStringAsNonSpaceCharacters)
+            1 * formattedPhoneNumberFactory.of(formattedNumberString)
     }
 
     def "should throw FormatException if empty phone number"() {

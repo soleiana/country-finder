@@ -2,17 +2,15 @@ package com.demo.core;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@EqualsAndHashCode(callSuper = true)
-public final class ValidatedPhoneNumber extends PhoneNumber {
+@Builder
+@ToString
+@EqualsAndHashCode
+public final class ValidatedPhoneNumber {
 
+    private final ValidatedNumberString numberString;
     private final Countries countries;
-
-    @Builder
-    ValidatedPhoneNumber(PhoneNumberString numberString, Countries countries) {
-        super(numberString);
-        this.countries = countries;
-    }
 
     public Country findCountry() {
         String countryName = "Latvia";

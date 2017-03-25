@@ -22,7 +22,7 @@ class FormattedPhoneNumberFactory {
         this.finalValidationRules = finalValidationRules;
     }
 
-    FormattedPhoneNumber of(PhoneNumberString numberString) {
+    FormattedPhoneNumber of(FormattedNumberString numberString) {
         return FormattedPhoneNumber.builder()
                 .numberString(numberString)
                 .validatedPhoneNumberFactory(validatedPhoneNumberFactory)

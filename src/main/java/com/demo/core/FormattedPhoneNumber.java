@@ -3,42 +3,35 @@ package com.demo.core;
 import com.demo.exceptions.ValidationException;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-public final class FormattedPhoneNumber extends PhoneNumber {
+@Builder
+@ToString
+@EqualsAndHashCode
+public final class FormattedPhoneNumber {
 
     private static final String INVALID_PHONE_NUMBER_FORMAT = "invalid phone number format";
+
+    private final FormattedNumberString numberString;
 
     private final ValidatedPhoneNumberFactory validatedPhoneNumberFactory;
     private final BasicValidationRule basicValidationRule;
     private final Set<? extends FinalValidationRule> finalValidationRules;
 
-    @Builder
-    FormattedPhoneNumber(PhoneNumberString numberString,
-                         ValidatedPhoneNumberFactory validatedPhoneNumberFactory,
-                         BasicValidationRule basicValidationRule,
-                         Set<? extends FinalValidationRule> finalValidationRules) {
-
-        super(numberString);
-        this.validatedPhoneNumberFactory = validatedPhoneNumberFactory;
-        this.finalValidationRules = finalValidationRules;
-        this.basicValidationRule = basicValidationRule;
-    }
-
     public ValidatedPhoneNumber validate() {
-        PhoneNumberString numberStringAsDigits = numberString
-                .withoutSpecialCharacters()
-                .withoutExtension();
+        ValidatedNumberString validatedNumberString = numberString.withoutSpecialCharacters()
+                .withoutExtension()
+                .build();
 
-        numberStringAsDigits.apply(basicValidationRule);
+        validatedNumberString.apply(basicValidationRule);
         boolean validationResult = finalValidationRules.stream()
                 .anyMatch(numberString::apply);
 
         if (!validationResult) {
             throw new ValidationException(INVALID_PHONE_NUMBER_FORMAT);
         }
-        return validatedPhoneNumberFactory.of(numberStringAsDigits);
+        return validatedPhoneNumberFactory.of(validatedNumberString);
     }
 }

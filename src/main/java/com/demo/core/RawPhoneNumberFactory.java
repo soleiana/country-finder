@@ -14,15 +14,15 @@ public class RawPhoneNumberFactory {
     }
 
     public RawPhoneNumber of(String phoneNumber) {
-        PhoneNumberString numberString = ofPhoneNumber(phoneNumber);
+        RawNumberString numberString = ofPhoneNumber(phoneNumber);
         return RawPhoneNumber.builder()
                 .numberString(numberString)
                 .formattedPhoneNumberFactory(formattedPhoneNumberFactory)
                 .build();
     }
 
-    private PhoneNumberString ofPhoneNumber(String phoneNumber) {
-        return PhoneNumberString.builder()
+    private RawNumberString ofPhoneNumber(String phoneNumber) {
+        return RawNumberString.builder()
                 .phoneNumber(phoneNumber)
                 .build();
     }

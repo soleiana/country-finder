@@ -2,26 +2,22 @@ package com.demo.core;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@EqualsAndHashCode(callSuper = true)
-public final class RawPhoneNumber extends PhoneNumber {
+@Builder
+@ToString
+@EqualsAndHashCode
+public final class RawPhoneNumber {
 
+    private final RawNumberString numberString;
     private final FormattedPhoneNumberFactory formattedPhoneNumberFactory;
 
-    @Builder
-    RawPhoneNumber(PhoneNumberString numberString,
-                    FormattedPhoneNumberFactory formattedPhoneNumberFactory){
-
-        super(numberString);
-        this.formattedPhoneNumberFactory = formattedPhoneNumberFactory;
-    }
-
     public FormattedPhoneNumber format() {
-        PhoneNumberString numberStringAsNonSpaceCharacters = numberString
-                .withoutSpaceCharacters()
+        FormattedNumberString formattedNumberString = numberString.withoutSpaceCharacters()
                 .withInternationalCallPrefix()
-                .checkFormat();
+                .checkFormat()
+                .build();
 
-        return formattedPhoneNumberFactory.of(numberStringAsNonSpaceCharacters);
+        return formattedPhoneNumberFactory.of(formattedNumberString);
     }
 }

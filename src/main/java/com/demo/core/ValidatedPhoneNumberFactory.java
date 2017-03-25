@@ -13,7 +13,7 @@ class ValidatedPhoneNumberFactory {
         this.countries = countries;
     }
 
-    ValidatedPhoneNumber of(PhoneNumberString numberString) {
+    ValidatedPhoneNumber of(ValidatedNumberString numberString) {
         return ValidatedPhoneNumber.builder()
                 .numberString(numberString)
                 .countries(countries)
