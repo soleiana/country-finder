@@ -12,13 +12,13 @@ class FormattedNumberStringSpec extends Specification {
 
     def "should apply validation rule"() {
 
-        given: "basic validation rule is provided"
+        given: "valid phone number"
             phoneNumberString = createFormattedNumberString(PHONE_NUMBER)
 
         when: "apply rule"
             def result = phoneNumberString.apply(validationRule)
 
-        then: "pass rule"
+        then: "delegate validation"
             1 * validationRule.apply(PHONE_NUMBER) >> true
 
         and: "result is success"
@@ -27,13 +27,13 @@ class FormattedNumberStringSpec extends Specification {
 
     def "should fail if validation rule fails"() {
 
-        given: "ITU-T validation rule is provided"
+        given: "invalid phone number"
             phoneNumberString = createFormattedNumberString(INVALID_ITU_T_PHONE_NUMBER)
 
         when: "apply rule"
             def result = phoneNumberString.apply(validationRule)
 
-        then: "fail rule"
+        then: "delegate validation"
             1 * validationRule.apply(INVALID_ITU_T_PHONE_NUMBER) >> false
 
         and: "result is failure"
