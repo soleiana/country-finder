@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.regex.Pattern;
+import static org.apache.commons.lang3.StringUtils.removeAll;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 class FormattedNumberString extends PhoneNumberString {
 
-    private static final Pattern PHONE_NUMBER_SPECIAL_CHARACTERS = Pattern.compile("[\\.\\-\\(\\)\\s]");
+    private static final String PHONE_NUMBER_SPECIAL_CHARACTERS = "[\\.\\-\\(\\)\\s]";
     private static final char PHONE_NUMBER_EXTENSION_DELIMITER = 'x';
 
     @Builder
@@ -23,7 +23,7 @@ class FormattedNumberString extends PhoneNumberString {
     }
 
     FormattedNumberString withoutSpecialCharacters() {
-        String numberWithoutSpecialCharacters = removeCharacters(phoneNumber, PHONE_NUMBER_SPECIAL_CHARACTERS);
+        String numberWithoutSpecialCharacters = removeAll(phoneNumber, PHONE_NUMBER_SPECIAL_CHARACTERS);
         return of(numberWithoutSpecialCharacters);
     }
 

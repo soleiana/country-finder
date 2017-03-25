@@ -17,7 +17,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 class Countries {
 
     private DB db;
-    private HTreeMap<String, Country> countries;
+    private HTreeMap<CountryCode, Country> countries;
 
     @PostConstruct
     void populate() {
@@ -35,9 +35,20 @@ class Countries {
 
     @SuppressWarnings("unchecked")
     private void populateDB() {
-        countries = (HTreeMap<String, Country>)db.hashMap("countries").create();
-        countries.put("371", new Country("Latvia"));
-        log.info(String.format("country code=371, country=%s", countries.get("371").toString()));
+        countries = (HTreeMap<CountryCode, Country>)db.hashMap("countries").create();
+        CountryCode countryCode1 = new CountryCode("371");
+        CountryCode countryCode2 = new CountryCode("370");
+        CountryCode countryCode3 = new CountryCode("1");
+        CountryCode countryCode4 = new CountryCode("1242");
+
+        countries.put(countryCode1, new Country("Latvia"));
+        countries.put(countryCode2, new Country("Lithuania"));
+
+        countries.put(countryCode3, new Country("USA"));
+        countries.put(countryCode4, new Country("Bahamas"));
+        countries.keySet().stream()
+                .sorted()
+                .forEach(code -> log.info(String.format("country code=%s", code.toString())));
 
     }
 }

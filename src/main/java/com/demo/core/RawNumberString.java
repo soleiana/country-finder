@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.regex.Pattern;
-
 import static org.apache.commons.lang3.StringUtils.prependIfMissing;
+import static org.apache.commons.lang3.StringUtils.removeAll;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 class RawNumberString extends PhoneNumberString {
 
-    private static final Pattern SPACE_CHARACTERS = Pattern.compile("\\s");
+    private static final String SPACE_CHARACTERS = "\\s";
     private static final String INTERNATIONAL_CALL_PREFIX = "+";
     private static final String EMPTY_NUMBER_MESSAGE = "phone number is empty";
 
@@ -23,7 +22,7 @@ class RawNumberString extends PhoneNumberString {
     }
 
     RawNumberString withoutSpaceCharacters() {
-        String numberWithoutSpaceCharacters = removeCharacters(phoneNumber, SPACE_CHARACTERS);
+        String numberWithoutSpaceCharacters = removeAll(phoneNumber, SPACE_CHARACTERS);
         return of(numberWithoutSpaceCharacters);
     }
 
