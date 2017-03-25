@@ -1,6 +1,6 @@
 package com.demo.core;
 
-import com.demo.exceptions.CountrySearchException;
+import com.demo.exceptions.SearchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,24 +10,24 @@ import static org.apache.commons.lang3.StringUtils.isNumeric;
 @Component
 class CountrySearch {
 
-    private static final String INVALID_COUNTRY_SEARCH_FORMAT = "phone number should contain only digits";
-    private final Countries countries;
+    private static final String INVALID_PHONE_NUMBER_FORMAT = "phone number should contain only digits";
+    private final CountryRegister countryRegister;
 
     @Autowired
-    CountrySearch(Countries countries) {
-        this.countries = countries;
+    CountrySearch(CountryRegister countryRegister) {
+        this.countryRegister = countryRegister;
     }
 
     Country apply(String phoneNumber) {
-       checkFormat(phoneNumber);
-       return countries.searchByPhoneNumber(phoneNumber);
+        checkFormat(phoneNumber);
+        return countryRegister.searchCountry(phoneNumber);
     }
 
     private void checkFormat(String phoneNumber) {
         try {
             checkArgument(isNumeric(phoneNumber));
         } catch (IllegalArgumentException exception) {
-            throw new CountrySearchException(INVALID_COUNTRY_SEARCH_FORMAT);
+            throw new SearchException(INVALID_PHONE_NUMBER_FORMAT);
         }
     }
 }
