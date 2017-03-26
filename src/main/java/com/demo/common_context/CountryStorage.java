@@ -25,10 +25,14 @@ public class CountryStorage {
     private HTreeMap<CountryCode, Country> countries;
 
     @PostConstruct
-    void populate() {
+    void init() {
         initializeDB();
         log.info("In-memory database initialized");
         populateDB();
+    }
+
+    public void populate() {
+
     }
 
     @SuppressWarnings("unchecked")

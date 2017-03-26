@@ -1,4 +1,4 @@
-package com.demo.reader_pipeline.core
+package com.demo.common_context
 
 import spock.lang.Specification
 
