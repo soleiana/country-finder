@@ -1,5 +1,6 @@
 package com.demo.core;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.extern.java.Log;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -32,7 +33,7 @@ class CountryStorage {
 
     @SuppressWarnings("unchecked")
     Set<CountryCode> findAllCountryCodes() {
-        return countries.keySet();
+        return ImmutableSet.copyOf(countries.keySet());
     }
 
     Optional<Country> findCountryByCode(CountryCode countryCode) {

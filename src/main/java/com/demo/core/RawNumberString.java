@@ -6,16 +6,15 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.lang3.StringUtils.prependIfMissing;
-import static org.apache.commons.lang3.StringUtils.removeAll;
+import static org.apache.commons.lang3.StringUtils.*;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 class RawNumberString extends PhoneNumberString {
 
-    private static final String SPACE_CHARACTERS = "\\s";
     private static final String INTERNATIONAL_CALL_PREFIX = "+";
     private static final String EMPTY_NUMBER = "phone number is empty";
+    private static final char[] NON_NUMERIC_PHONE_NUMBER_CHARACTERS = {'+', '.', '(', ')', '-', 'x', 'X'};
 
     @Builder
     RawNumberString(String phoneNumber) {
@@ -23,7 +22,7 @@ class RawNumberString extends PhoneNumberString {
     }
 
     RawNumberString withoutSpaceCharacters() {
-        String numberWithoutSpaceCharacters = removeAll(phoneNumber, SPACE_CHARACTERS);
+        String numberWithoutSpaceCharacters = deleteWhitespace(phoneNumber);
         return of(numberWithoutSpaceCharacters);
     }
 
@@ -33,9 +32,10 @@ class RawNumberString extends PhoneNumberString {
     }
 
     RawNumberString checkFormat() {
-        int prefixLength = INTERNATIONAL_CALL_PREFIX.length();
         try {
-            checkArgument(phoneNumber.length() > prefixLength);
+            checkArgument(!isEmpty(phoneNumber) &&
+                    !containsWhitespace(phoneNumber) &&
+                    !containsOnly(phoneNumber, NON_NUMERIC_PHONE_NUMBER_CHARACTERS));
         } catch (IllegalArgumentException exception) {
             throw new FormatException(EMPTY_NUMBER);
         }

@@ -53,12 +53,12 @@ class RawNumberStringSpec extends Specification {
             '+'                     || '+'
     }
 
-    def "should throw FormatException if empty phone number"() {
+    def "should throw FormatException if invalid phone number"() {
 
-        given: "empty, containing only space chars, and/or '+' phone number"
+        given: "phone number is empty | containing white space characters | non-numeric phone number characters"
             phoneNumberString = createRawNumberString(phoneNumber)
 
-        when: "format for final validation"
+        when: "check format"
             phoneNumberString.checkFormat()
 
         then: "FormatException thrown"
@@ -67,9 +67,13 @@ class RawNumberStringSpec extends Specification {
 
         where:
             phoneNumber     | _
+            '+371 12345678' | _
             ''              | _
+            ' '             | _
+            '\t \n'         | _
+            '+(.)--'        | _
+            ' + ..((x'      | _
             '+'             | _
-            'a'             | _
     }
 
     def createRawNumberString(String phoneNumber) {
