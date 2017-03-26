@@ -1,7 +1,6 @@
 package com.demo.rest.resources
 
 import com.demo.reader_pipeline.communications.GetCountryByPhoneNumberRequest
-import com.demo.reader_pipeline.communications.GetCountryByPhoneNumberResponse
 import spock.lang.Specification
 
 class CountryResourceSpec extends Specification {
@@ -13,19 +12,20 @@ class CountryResourceSpec extends Specification {
     def "should find country"() {
         given:
             def request = Mock(GetCountryByPhoneNumberRequest)
-            def response = Mock(GetCountryByPhoneNumberResponse)
+            def latvia = new Country('Latvia')
+            def country = Mock(com.demo.reader_pipeline.communications.Country)
             requestFactory.of(_ as String) >> request
 
         when: "user inputs correct international phone number"
-            def country = resource.findCountryByPhoneNumber(PHONE_NUMBER)
+            def result = resource.findCountryByPhoneNumber(PHONE_NUMBER)
 
         then:
-            1 * request.execute() >> response
+            1 * request.execute() >> country
         then:
-            1 * response.toCountry() >> new Country('Latvia')
+            1 * country.transform() >> latvia
 
         and: "country found"
-            country.name == 'Latvia'
+            result == latvia
 
     }
 }

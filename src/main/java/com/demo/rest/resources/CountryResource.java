@@ -23,7 +23,7 @@ public class CountryResource {
     public Country findCountryByPhoneNumber(@NotNull @RequestParam(value = "phoneNumber") String phoneNumber){
         return requestFactory.of(phoneNumber)
                 .execute()
-                .toCountry();
+                .transform();
     }
 }
 

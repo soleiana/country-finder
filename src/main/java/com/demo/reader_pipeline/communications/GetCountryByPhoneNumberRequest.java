@@ -17,13 +17,12 @@ public class GetCountryByPhoneNumberRequest {
     @NonNull
     private final RawPhoneNumberFactory rawPhoneNumberFactory;
 
-    public GetCountryByPhoneNumberResponse execute() {
-        //TODO: should return communications.country instead of response
+    public Country execute() {
         return rawPhoneNumberFactory.of(phoneNumber)
                 .format()
                 .validate()
                 .findCountry()
-                .transform()
-                .toResponse();
+                .transform();
+
     }
 }
