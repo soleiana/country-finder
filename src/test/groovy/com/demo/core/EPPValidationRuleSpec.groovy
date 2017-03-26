@@ -10,7 +10,7 @@ class EPPValidationRuleSpec extends Specification {
     def validationRule = new NANPValidationRule(regexFactory)
     def regex = Stub(PhoneNumberRegex)
 
-    def "should be successfully applied to correct phone number"() {
+    def "should apply to correct phone number"() {
 
         given: "regex passes"
             final phoneNumber = '+123.4567x1234A'
