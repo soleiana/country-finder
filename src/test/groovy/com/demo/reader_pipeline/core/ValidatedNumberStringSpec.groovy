@@ -1,5 +1,6 @@
 package com.demo.reader_pipeline.core
 
+import com.demo.common_context.Country
 import com.demo.reader_pipeline.exceptions.SearchException
 import com.demo.reader_pipeline.exceptions.ValidationException
 import spock.lang.Specification

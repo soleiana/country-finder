@@ -1,4 +1,4 @@
-package com.demo.reader_pipeline.core;
+package com.demo.common_context;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.extern.java.Log;
@@ -17,7 +17,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Log
 @Component
 @Scope(SCOPE_SINGLETON)
-class CountryStorage {
+public class CountryStorage {
 
     private static final String STORAGE_NAME = "countries";
 
@@ -32,11 +32,11 @@ class CountryStorage {
     }
 
     @SuppressWarnings("unchecked")
-    Set<CountryCode> findAllCountryCodes() {
+   public  Set<CountryCode> findAllCountryCodes() {
         return ImmutableSet.copyOf(countries.keySet());
     }
 
-    Optional<Country> findCountryByCode(CountryCode countryCode) {
+   public Optional<Country> findCountryByCode(CountryCode countryCode) {
         return Optional.ofNullable(countries.get(countryCode));
     }
 

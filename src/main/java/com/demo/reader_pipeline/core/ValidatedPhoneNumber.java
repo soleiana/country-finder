@@ -1,5 +1,6 @@
 package com.demo.reader_pipeline.core;
 
+import com.demo.common_context.Country;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

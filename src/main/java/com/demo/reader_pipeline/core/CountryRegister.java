@@ -1,5 +1,8 @@
 package com.demo.reader_pipeline.core;
 
+import com.demo.common_context.Country;
+import com.demo.common_context.CountryCode;
+import com.demo.common_context.CountryStorage;
 import com.demo.reader_pipeline.exceptions.SearchException;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Log
-@Component
+@Component("reader")
 class CountryRegister {
 
     private static final String COUNTRY_CODE_NOT_FOUND = "country code not found";

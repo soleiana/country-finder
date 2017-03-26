@@ -1,4 +1,4 @@
-package com.demo.reader_pipeline.core;
+package com.demo.common_context;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @ToString
 @EqualsAndHashCode
-final class CountryCode implements Comparable<CountryCode>, Serializable {
+public final class CountryCode implements Comparable<CountryCode>, Serializable {
 
     @NonNull
     private final String code;
@@ -22,7 +22,7 @@ final class CountryCode implements Comparable<CountryCode>, Serializable {
         return countryCode.length() - this.length();
     }
 
-    boolean belongsTo(String phoneNumber) {
+    public boolean belongsTo(String phoneNumber) {
         return StringUtils.startsWith(phoneNumber, code);
     }
 

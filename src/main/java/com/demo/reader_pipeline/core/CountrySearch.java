@@ -1,7 +1,9 @@
 package com.demo.reader_pipeline.core;
 
+import com.demo.common_context.Country;
 import com.demo.reader_pipeline.exceptions.SearchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -14,7 +16,7 @@ class CountrySearch {
     private final CountryRegister countryRegister;
 
     @Autowired
-    CountrySearch(CountryRegister countryRegister) {
+    CountrySearch(@Qualifier("reader") CountryRegister countryRegister) {
         this.countryRegister = countryRegister;
     }
 

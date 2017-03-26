@@ -1,8 +1,10 @@
 package com.demo.reader_pipeline.core
 
+import com.demo.common_context.Country
+import com.demo.common_context.CountryCode
+import com.demo.common_context.CountryStorage
 import com.demo.reader_pipeline.exceptions.SearchException
 import spock.lang.Specification
-
 
 class CountryRegisterSpec extends Specification {
 
