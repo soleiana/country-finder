@@ -16,11 +16,8 @@ public class MediaWikiClientAdapter implements RestClientAdapter {
     }
 
     @Override
-    public GetCountriesResponse getListOfCountryCallingCodes() {
+    public Countries getListOfCountryCallingCodes() {
         MediaWikiResponseWrapper responseWrapper = mediaWikiClient.getListOfCountryCallingCodes();
-        Countries countries = responseWrapper.toCountries();
-        return GetCountriesResponse.builder()
-                .countries(countries)
-                .build();
+        return responseWrapper.toCountries();
     }
 }

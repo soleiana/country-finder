@@ -10,6 +10,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class GetCountryByPhoneNumberResponse {
 
+    //TODO: remove class
     @NonNull
     private final Country country;
 

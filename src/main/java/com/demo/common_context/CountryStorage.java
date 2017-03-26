@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,8 +32,8 @@ public class CountryStorage {
         populateDB();
     }
 
-    public void populate() {
-
+    public void save(Map<CountryCode, Country> countryMap) {
+        //TODO: add transactional saving here
     }
 
     @SuppressWarnings("unchecked")
@@ -42,7 +43,7 @@ public class CountryStorage {
 
    public Optional<Country> findCountryByCode(CountryCode countryCode) {
         return Optional.ofNullable(countries.get(countryCode));
-    }
+   }
 
     private void initializeDB() {
         db = DBMaker.memoryDB()

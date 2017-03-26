@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Log
-@Component("reader")
+@Component
 class CountryRegister {
 
     private static final String COUNTRY_CODE_NOT_FOUND = "country code not found";

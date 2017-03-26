@@ -14,9 +14,11 @@ public class GetCountryByPhoneNumberRequest {
     @NonNull
     private final String phoneNumber;
 
+    @NonNull
     private final RawPhoneNumberFactory rawPhoneNumberFactory;
 
     public GetCountryByPhoneNumberResponse execute() {
+        //TODO: should return communications.country instead of response
         return rawPhoneNumberFactory.of(phoneNumber)
                 .format()
                 .validate()

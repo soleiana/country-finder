@@ -3,6 +3,7 @@ package com.demo.reader_pipeline.core;
 import com.demo.reader_pipeline.exceptions.ValidationException;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 
 import java.util.Set;
@@ -14,10 +15,16 @@ public final class FormattedPhoneNumber {
 
     private static final String INVALID_PHONE_NUMBER_FORMAT = "invalid phone number format";
 
+    @NonNull
     private final FormattedNumberString numberString;
 
+    @NonNull
     private final ValidatedPhoneNumberFactory validatedPhoneNumberFactory;
+
+    @NonNull
     private final BasicValidationRule basicValidationRule;
+
+    @NonNull
     private final Set<? extends FinalValidationRule> finalValidationRules;
 
     public ValidatedPhoneNumber validate() {

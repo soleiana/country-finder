@@ -1,7 +1,6 @@
 package com.demo.writer_pipeline.core;
 
-import com.demo.common_context.CountryStorage;
-import com.demo.writer_pipeline.communications.GetCountriesResponse;
+import com.demo.writer_pipeline.communications.Countries;
 import com.demo.writer_pipeline.communications.RestClientAdapter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +13,28 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 
 @Log
 @Scope(SCOPE_SINGLETON)
-@Component("writer")
-class CountryRegister {
+@Component
+class CountryLoader {
 
     private final RestClientAdapter restClientAdapter;
-    private final CountryStorage storage;
+    private final RawCountryFactory rawCountryFactory;
 
     @Autowired
-    public CountryRegister(CountryStorage storage, RestClientAdapter restClientAdapter) {
-        this.storage = storage;
+    CountryLoader(RestClientAdapter restClientAdapter, RawCountryFactory rawCountryFactory) {
         this.restClientAdapter = restClientAdapter;
+        this.rawCountryFactory = rawCountryFactory;
     }
 
     @PostConstruct
     void bootstrap() {
-        GetCountriesResponse response = restClientAdapter.getListOfCountryCallingCodes();
-        log.info(response.toString());
+        Countries countries = restClientAdapter.getListOfCountryCallingCodes();
+        log.info("List of countries fetched...");
+        log.info(countries.toString());
+
+        rawCountryFactory.of(countries)
+                .parse()
+                .serialize();
+
+        log.info("List of countries loaded");
     }
 }
