@@ -1,7 +1,7 @@
 package com.demo.rest.resources
 
-import com.demo.communications.GetCountryByPhoneNumberRequest
-import com.demo.communications.GetCountryByPhoneNumberResponse
+import com.demo.reader_pipeline.communications.GetCountryByPhoneNumberRequest
+import com.demo.reader_pipeline.communications.GetCountryByPhoneNumberResponse
 import spock.lang.Specification
 
 class CountryResourceSpec extends Specification {

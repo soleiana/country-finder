@@ -1,7 +1,7 @@
 package com.demo.rest.resources;
 
-import com.demo.communications.GetCountryByPhoneNumberRequest;
-import com.demo.core.RawPhoneNumberFactory;
+import com.demo.reader_pipeline.communications.GetCountryByPhoneNumberRequest;
+import com.demo.reader_pipeline.core.RawPhoneNumberFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
