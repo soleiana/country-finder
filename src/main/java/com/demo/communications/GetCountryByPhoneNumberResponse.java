@@ -14,8 +14,6 @@ public class GetCountryByPhoneNumberResponse {
     private final Country country;
 
     public com.demo.rest.resources.Country toCountry() {
-        return com.demo.rest.resources.Country.builder()
-                .name(country.toName())
-                .build();
+        return country.transform();
     }
 }

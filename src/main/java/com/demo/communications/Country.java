@@ -19,7 +19,9 @@ public final class Country {
                 .build();
     }
 
-    String toName() {
-        return name;
+    com.demo.rest.resources.Country transform() {
+        return com.demo.rest.resources.Country.builder()
+                .name(name)
+                .build();
     }
 }
