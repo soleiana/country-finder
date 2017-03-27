@@ -3,7 +3,7 @@ package com.demo.writer_pipeline.core
 import com.demo.writer_pipeline.exceptions.TokenizingException
 import spock.lang.Specification
 
-class WikiCountryTokenizerSpec extends Specification {
+class WikiTokenizerSpec extends Specification {
 
     static final TOKENIZING_ERROR = 'unable to tokenize country string'
 

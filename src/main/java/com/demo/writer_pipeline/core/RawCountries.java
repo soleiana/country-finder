@@ -20,7 +20,6 @@ final class RawCountries {
     private final TokenizedCountryFactory tokenizedCountryFactory;
 
     TokenizedCountries tokenize() {
-        //TODO:
         CountryTokens countryTokens = countryString.apply(countryTokenizer);
         return tokenizedCountryFactory.of(countryTokens);
     }
