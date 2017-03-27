@@ -7,22 +7,21 @@ import org.springframework.stereotype.Component;
 @Component
 class RawCountryFactory {
 
-    private final CountryParser countryParser;
-    private final ParsedCountryFactory parsedCountryFactory;
+    private final CountryTokenizer countryTokenizer;
+    private final TokenizedCountryFactory tokenizedCountryFactory;
 
     @Autowired
-    RawCountryFactory(CountryParser countryParser,
-                      ParsedCountryFactory parsedCountryFactory) {
-        this.countryParser = countryParser;
-        this.parsedCountryFactory = parsedCountryFactory;
+    RawCountryFactory(CountryTokenizer countryTokenizer, TokenizedCountryFactory tokenizedCountryFactory) {
+        this.countryTokenizer = countryTokenizer;
+        this.tokenizedCountryFactory = tokenizedCountryFactory;
     }
 
     RawCountries of(Countries countries) {
         RawCountryString rawString = ofCountries(countries);
         return RawCountries.builder()
                 .countryString(rawString)
-                .countryParser(countryParser)
-                .parsedCountryFactory(parsedCountryFactory)
+                .countryTokenizer(countryTokenizer)
+                .tokenizedCountryFactory(tokenizedCountryFactory)
                 .build();
 
     }

@@ -14,15 +14,15 @@ final class RawCountries {
     private final RawCountryString countryString;
 
     @NonNull
-    private final CountryParser countryParser;
+    private final CountryTokenizer countryTokenizer;
 
     @NonNull
-    private final ParsedCountryFactory parsedCountryFactory;
+    private final TokenizedCountryFactory tokenizedCountryFactory;
 
-    ParsedCountries parse() {
-        //TODO: add some logic here before call to parser
-        ParsedCountryMap countryMap = countryString.apply(countryParser);
-        return parsedCountryFactory.of(countryMap);
+    TokenizedCountries tokenize() {
+        //TODO:
+        CountryTokens countryTokens = countryString.apply(countryTokenizer);
+        return tokenizedCountryFactory.of(countryTokens);
     }
 
 }

@@ -32,6 +32,7 @@ class CountryLoader {
         log.info(countries.toString());
 
         rawCountryFactory.of(countries)
+                .tokenize()
                 .parse()
                 .serialize();
 
