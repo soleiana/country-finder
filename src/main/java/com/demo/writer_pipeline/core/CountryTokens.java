@@ -25,5 +25,4 @@ class CountryTokens {
                 .build();
 
     }
-
 }
