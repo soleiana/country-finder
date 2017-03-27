@@ -2,7 +2,7 @@ package com.demo.writer_pipeline.core;
 
 import com.demo.writer_pipeline.communications.Countries;
 import com.demo.writer_pipeline.communications.RestClientAdapter;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
-@Log
+@Slf4j
 @Scope(SCOPE_SINGLETON)
 @Component
 class CountryLoader {

@@ -11,7 +11,8 @@ class RawCountryFactory {
     private final TokenizedCountryFactory tokenizedCountryFactory;
 
     @Autowired
-    RawCountryFactory(CountryTokenizer countryTokenizer, TokenizedCountryFactory tokenizedCountryFactory) {
+    public RawCountryFactory(CountryTokenizer countryTokenizer,
+                             TokenizedCountryFactory tokenizedCountryFactory) {
         this.countryTokenizer = countryTokenizer;
         this.tokenizedCountryFactory = tokenizedCountryFactory;
     }
