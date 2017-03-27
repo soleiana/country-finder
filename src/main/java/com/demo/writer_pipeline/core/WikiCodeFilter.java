@@ -10,12 +10,13 @@ import java.util.regex.Pattern;
 @Component
 class WikiCodeFilter extends Filter {
 
-    private static final String CODE_FILTER_REGEX = "\\[\\[([a-zA-z0-9\\s]{3,}\\|)?\\+[0-9/\\sx]{1,}\\]\\].*";
+    private static final String CODE_FILTER_REGEX = "\\[\\[([a-z0-9\\s]{3,}\\|)?\\+[0-9/\\sx]{1,}\\]\\].*";
     private static final Pattern CODE_FILTER = Pattern.compile(CODE_FILTER_REGEX);
 
     @Override
     boolean apply(String entry) {
-        Matcher matcher = CODE_FILTER.matcher(entry.trim());
+        String normalizedEntry = entry.toLowerCase().trim();
+        Matcher matcher = CODE_FILTER.matcher(normalizedEntry);
         return matcher.matches();
     }
 }
