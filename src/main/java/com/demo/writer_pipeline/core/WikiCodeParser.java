@@ -57,7 +57,7 @@ class WikiCodeParser {
     private List<String> extractCodeParts(String token) {
         int start = token.indexOf(START_OF_MULTIPLE_CODES_SUBSTRING);
         int finish = token.indexOf(END_OF_MULTIPLE_CODES_SUBSTRING);
-        String codeString = token.substring(start + 2, finish);
+        String codeString = token.substring(start + START_OF_MULTIPLE_CODES_SUBSTRING.length(), finish);
         List<String> codeParts = asList(codeString.split(CODE_PARTS_SEPARATORS));
         if (codeParts.isEmpty()) {
             throw new ParsingException(PARSING_ERROR);

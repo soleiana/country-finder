@@ -9,11 +9,9 @@ class WikiCodeParserSpec extends Specification {
     def "should apply to single country code"() {
 
         given: "valid country token"
+            def result = codeParser.apply(token)
 
-        when: "apply Wiki code parser"
-        def result = codeParser.apply(token)
-
-        then: "success"
+        expect: "parsed token"
             result.size() == 1
             result.get(0) == expectedResult
 
@@ -29,10 +27,9 @@ class WikiCodeParserSpec extends Specification {
 
         given: "valid country token"
 
-        when: "apply Wiki code parser"
             def result = codeParser.apply(token)
 
-        then: "success"
+        expect: "parsed tokens"
             result.size() == expectedResult.size()
             result.containsAll(expectedResult)
         where:

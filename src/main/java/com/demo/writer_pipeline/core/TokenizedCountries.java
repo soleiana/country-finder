@@ -20,7 +20,6 @@ final class TokenizedCountries {
     private final ParsedCountryFactory parsedCountryFactory;
 
     ParsedCountries parse() {
-        //TODO: add some logic here before call to parser
         ParsedCountryMap countryMap = countryTokens.apply(countryParser);
         return parsedCountryFactory.of(countryMap);
     }
