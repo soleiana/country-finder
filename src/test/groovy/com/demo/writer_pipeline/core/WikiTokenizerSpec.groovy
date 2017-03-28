@@ -21,7 +21,7 @@ class WikiTokenizerSpec extends Specification {
             def firstToken = "[[+45]] – {{flag|Denmark}}"
             def secondToken = "[[+46]] – {{flag|Sweden}"
 
-        when:
+        when: "apply Wiki tokenizer"
             def result = tokenizer.apply(wikiCountries)
 
         then: "apply Wiki raw string tokenizer"
@@ -48,7 +48,7 @@ class WikiTokenizerSpec extends Specification {
             def validCountryToken = "[[+45]] – {{flag|Denmark}}"
             def nonCountryToken = "+997 – ''unassigned''"
 
-        when:
+        when: "apply Wiki tokenizer"
             def result = tokenizer.apply(wikiCountries)
 
         then: "apply Wiki raw string tokenizer"
@@ -69,9 +69,9 @@ class WikiTokenizerSpec extends Specification {
             result.get(0) == "[[+45]] – {{flag|Denmark}}"
     }
 
-    def "should throw TokenizingException"() {
+    def "should throw TokenizingException if Wiki raw string tokenizer throws exception"() {
 
-        when:
+        when: "apply Wiki tokenizer"
             tokenizer.apply(_ as String)
 
         then: "invoke Wiki raw string tokenizer and throw exception"
@@ -80,6 +80,32 @@ class WikiTokenizerSpec extends Specification {
         then: "TokenizingException thrown"
             def exception = thrown(TokenizingException)
             exception.message == TOKENIZING_ERROR
+    }
+
+    def "should throw TokenizingException if no tokens created"() {
+
+        given: "well-formed Wiki text"
+            def wikiCountries = "n* +997 – ''unassigned''\n*  +998 – ''unassigned''"
+            def firstToken = "+997 – ''unassigned''"
+            def secondToken = " +998 – ''unassigned''"
+
+        when: "apply Wiki tokenizer"
+            tokenizer.apply(wikiCountries)
+
+        then: "apply Wiki raw string tokenizer"
+            1 * rawTokenizer.apply(_  as String) >> [firstToken, secondToken]
+
+        then: "apply Wiki filters for the first token"
+            1 * codeFilter.apply(firstToken) >> false
+
+        then: "apply Wiki filters for the second token"
+            1 * codeFilter.apply(secondToken) >> true
+            1 * countryFilter.apply(secondToken) >> false
+
+        then: "TokenizingException thrown"
+            def exception = thrown(TokenizingException)
+            exception.message == TOKENIZING_ERROR
+
     }
 
 }
