@@ -6,9 +6,9 @@ class WikiCodeFilterSpec extends Specification {
 
     WikiCodeFilter filter = new WikiCodeFilter()
 
-    def "should apply to valid country tokens"() {
+    def "should apply to valid country token"() {
 
-        given: "Wiki country tokens"
+        given: "Wiki country token"
 
         when: "apply code filter"
             def result = filter.apply(token)
@@ -30,8 +30,9 @@ class WikiCodeFilterSpec extends Specification {
 
     }
 
-    def "should not apply to non-country tokens"() {
-        given: "Wiki non-country tokens"
+    def "should not apply to non-country token"() {
+
+        given: "Wiki non-country token"
 
         when: "apply code filter"
             def result = filter.apply(token)

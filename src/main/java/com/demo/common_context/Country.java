@@ -1,15 +1,13 @@
 package com.demo.common_context;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Builder
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor
 public final class Country implements Serializable {
 
     @NonNull

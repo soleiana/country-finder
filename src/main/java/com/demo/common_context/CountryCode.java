@@ -1,9 +1,6 @@
 package com.demo.common_context;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +9,7 @@ import java.io.Serializable;
 @Builder
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor
 public final class CountryCode implements Comparable<CountryCode>, Serializable {
 
     @NonNull
