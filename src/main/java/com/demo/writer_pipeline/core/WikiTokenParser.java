@@ -22,7 +22,6 @@ class WikiTokenParser {
 
     private static final String COUNTRY_PARSING_ERROR = "unable to parse country";
     private static final String CODE_PARSING_ERROR = "unable to parse country code";
-    private static final String CODE_COUNTRY_TUPLE_ERROR = "unable to add parsed tuple to collection";
 
     private final WikiCodeParser codeParser;
     private final WikiCountryParser countryParser;
@@ -50,7 +49,7 @@ class WikiTokenParser {
                     .forEach(tuple -> log.info(tuple.toString()));
             return ImmutableMap.copyOf(codeCountryTuples);
 
-        } catch (IllegalArgumentException exception) {
+        } catch (RuntimeException exception) {
             throw new ParsingException(exception.getMessage());
 
         }
@@ -58,7 +57,7 @@ class WikiTokenParser {
 
     private void checkArguments(String country, List<String> codes) {
         checkArgument(!country.isEmpty(), COUNTRY_PARSING_ERROR);
-        checkArgument(!codes.isEmpty(), COUNTRY_PARSING_ERROR);
+        checkArgument(!codes.isEmpty(), CODE_PARSING_ERROR);
     }
 
 }

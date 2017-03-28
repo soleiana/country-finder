@@ -12,7 +12,7 @@ class WikiCountryParserSpec extends Specification {
         given: "valid country token"
             def result = countryParser.apply(token)
 
-        expect: "parsed country"
+        expect: "parsed country name"
             result == expectedResult
 
         where:
