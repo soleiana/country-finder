@@ -23,14 +23,14 @@ class CountrySerializer {
     }
 
     void apply(Map<CountryCode, Country> countryMap) {
-        //TODO: add some logic here, maybe
         try {
             storage.save(countryMap);
-            log.info("Countries loaded, have some rest!");
+            log.info("Countries loaded, open champagne!");
 
         } catch (RuntimeException exception) {
             log.info(SERIALIZATION_ERROR);
             throw new StorageAccessException(SERIALIZATION_ERROR);
         }
     }
+
 }

@@ -25,25 +25,33 @@ public class CountryStorage {
     private DB db;
     private HTreeMap<CountryCode, Country> countries;
 
+    @SuppressWarnings("unchecked")
+    public void save(Map<CountryCode, Country> countryMap) {
+        countries = (HTreeMap<CountryCode, Country>)db.hashMap(STORAGE_NAME).createOrOpen();
+
+        countryMap.forEach(
+                (key, value) -> countries.put(key, value)
+        );
+        db.commit();
+        log.info("List of countries serialized");
+        printCountries();
+    }
+
+    @SuppressWarnings("unchecked")
+    public  Set<CountryCode> findAllCountryCodes() {
+        return ImmutableSet.copyOf(countries.keySet());
+    }
+
+    public Optional<Country> findCountryByCode(CountryCode countryCode) {
+        return Optional.ofNullable(countries.get(countryCode));
+    }
+
     @PostConstruct
     void init() {
         initializeDB();
         log.info("In-memory database initialized");
-        populateDB();
+        populateDBWithTestData();
     }
-
-    public void save(Map<CountryCode, Country> countryMap) {
-        //TODO: add transactional saving here
-    }
-
-    @SuppressWarnings("unchecked")
-   public  Set<CountryCode> findAllCountryCodes() {
-        return ImmutableSet.copyOf(countries.keySet());
-    }
-
-   public Optional<Country> findCountryByCode(CountryCode countryCode) {
-        return Optional.ofNullable(countries.get(countryCode));
-   }
 
     private void initializeDB() {
         db = DBMaker.memoryDB()
@@ -53,26 +61,24 @@ public class CountryStorage {
     }
 
     @SuppressWarnings("unchecked")
-    private void populateDB() {
+    private void populateDBWithTestData() {
         countries = (HTreeMap<CountryCode, Country>)db.hashMap(STORAGE_NAME).create();
-        addCountries();
+        addTestCountries();
+        printCountries();
+    }
 
-        countries.keySet().stream()
-                .sorted()
-                .forEach(code -> log.info(String.format("country code=%s", code.toString())));
+    @SuppressWarnings("unchecked")
+    private void printCountries() {
+        countries.forEach((key, value) ->
+                log.info(String.format("code=%s, country=%s", key.toString(), value.toString())));
 
     }
 
-    private void addCountries() {
-        CountryCode countryCode1 = new CountryCode("371");
-        CountryCode countryCode2 = new CountryCode("370");
-        CountryCode countryCode3 = new CountryCode("1");
-        CountryCode countryCode4 = new CountryCode("1242");
-
-        countries.put(countryCode1, new Country("Latvia"));
-        countries.put(countryCode2, new Country("Lithuania"));
-        countries.put(countryCode3, new Country("USA"));
-        countries.put(countryCode4, new Country("Bahamas"));
+    private void addTestCountries() {
+        CountryCode countryCode1 = new CountryCode("071");
+        CountryCode countryCode2 = new CountryCode("070");
+        countries.put(countryCode1, new Country("Serendipity"));
+        countries.put(countryCode2, new Country("Oz"));
     }
 
 }

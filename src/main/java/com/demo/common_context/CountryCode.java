@@ -1,10 +1,11 @@
 package com.demo.common_context;
 
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+
+import static org.apache.commons.lang3.StringUtils.startsWith;
 
 @Builder
 @ToString
@@ -21,7 +22,7 @@ public final class CountryCode implements Comparable<CountryCode>, Serializable 
     }
 
     public boolean belongsTo(String phoneNumber) {
-        return StringUtils.startsWith(phoneNumber, code);
+        return startsWith(phoneNumber, code);
     }
 
     private int length() {

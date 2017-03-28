@@ -30,16 +30,14 @@ class WikiTokenizer extends CountryTokenizer {
         List<String> filteredTokens;
         try {
             List<String> tokens = rawStringTokenizer.apply(countryString);
-            log.info("TOKENIZED COUNTRIES");
-            tokens.forEach(log::info);
             filteredTokens = filter(tokens);
         } catch (RuntimeException exception) {
             throw new TokenizingException(TOKENIZING_ERROR);
         }
-        log.info("FILTERED COUNTRIES");
         if (filteredTokens.isEmpty()) {
             throw new TokenizingException(TOKENIZING_ERROR);
         }
+        log.info("FILTERED COUNTRIES");
         filteredTokens.forEach(log::info);
         return ImmutableList.copyOf(filteredTokens);
     }
