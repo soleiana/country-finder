@@ -53,7 +53,6 @@ class WikiTokenParserSpec extends Specification {
         and: "ParsingException thrown"
             def exception = thrown(ParsingException)
             exception.message == CODE_PARSING_ERROR
-
     }
 
     def buildCodeCountryTuples(String country, List<String> codes) {

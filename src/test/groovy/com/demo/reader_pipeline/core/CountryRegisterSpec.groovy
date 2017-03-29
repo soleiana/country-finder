@@ -48,14 +48,14 @@ class CountryRegisterSpec extends Specification {
             countryRegister.searchCountry(PHONE_NUMBER_WITH_UNASSIGNED_CODE)
 
         then: "find all country codes"
-        1 * countryStorage.findAllCountryCodes() >> [
+            1 * countryStorage.findAllCountryCodes() >> [
                 new CountryCode('230'),
                 new CountryCode('231'),
                 new CountryCode('232')
-        ].toSet()
+            ].toSet()
 
         then: "find country by code not invoked"
-         0 * countryStorage.findCountryByCode(_ as CountryCode)
+            0 * countryStorage.findCountryByCode(_ as CountryCode)
 
         and: "SearchException thrown"
             def exception = thrown(SearchException)
