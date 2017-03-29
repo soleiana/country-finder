@@ -1,6 +1,6 @@
 package com.demo.rest.resources;
 
-import com.demo.reader_pipeline.communications.GetCountryByPhoneNumberRequest;
+import com.demo.reader_pipeline.communications.SearchEngine;
 import com.demo.reader_pipeline.core.RawPhoneNumberFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,8 @@ class RequestFactory {
         this.rawPhoneNumberFactory = rawPhoneNumberFactory;
     }
 
-    GetCountryByPhoneNumberRequest of(String phoneNumber) {
-        return GetCountryByPhoneNumberRequest.builder()
+    SearchEngine of(String phoneNumber) {
+        return SearchEngine.builder()
                 .phoneNumber(phoneNumber)
                 .rawPhoneNumberFactory(rawPhoneNumberFactory)
                 .build();

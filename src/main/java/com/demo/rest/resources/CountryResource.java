@@ -22,7 +22,7 @@ public class CountryResource {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public Country findCountryByPhoneNumber(@NotNull @RequestParam(value = "phoneNumber") String phoneNumber){
         return requestFactory.of(phoneNumber)
-                .execute()
+                .start()
                 .transform();
     }
 }

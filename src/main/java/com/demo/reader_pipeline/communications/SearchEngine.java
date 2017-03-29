@@ -9,7 +9,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class GetCountryByPhoneNumberRequest {
+public class SearchEngine {
 
     @NonNull
     private final String phoneNumber;
@@ -17,7 +17,7 @@ public class GetCountryByPhoneNumberRequest {
     @NonNull
     private final RawPhoneNumberFactory rawPhoneNumberFactory;
 
-    public Country execute() {
+    public Country start() {
         return rawPhoneNumberFactory.of(phoneNumber)
                 .format()
                 .validate()
