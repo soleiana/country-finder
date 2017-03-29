@@ -15,7 +15,6 @@ class CountrySerializerSpec extends Specification {
 
         then: "save code-country map to storage"
             1 * storage.save(_ as Map)
-
     }
 
 }
