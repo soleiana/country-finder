@@ -11,7 +11,7 @@ import java.util.Set;
 @Builder
 @ToString
 @EqualsAndHashCode
-public final class FormattedPhoneNumber {
+public class FormattedPhoneNumber {
 
     private static final String INVALID_PHONE_NUMBER_FORMAT = "invalid phone number format";
 

@@ -9,7 +9,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public final class Countries {
+public class Countries {
 
     @NonNull
     private final String countries;

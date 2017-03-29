@@ -9,7 +9,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public final class ValidatedPhoneNumber {
+public class ValidatedPhoneNumber {
 
     @NonNull
     private final ValidatedNumberString numberString;

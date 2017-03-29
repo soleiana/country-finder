@@ -8,7 +8,7 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-public final class Country implements Serializable {
+public class Country implements Serializable {
 
     @NonNull
     private final String name;

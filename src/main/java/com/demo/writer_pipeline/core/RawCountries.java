@@ -8,7 +8,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-final class RawCountries {
+class RawCountries {
 
     @NonNull
     private final RawCountryString countryString;

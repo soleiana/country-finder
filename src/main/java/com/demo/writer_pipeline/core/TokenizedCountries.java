@@ -8,7 +8,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-final class TokenizedCountries {
+class TokenizedCountries {
 
     @NonNull
     private final CountryTokens countryTokens;

@@ -8,7 +8,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public final class RawPhoneNumber {
+public class RawPhoneNumber {
 
     @NonNull
     private final RawNumberString numberString;
