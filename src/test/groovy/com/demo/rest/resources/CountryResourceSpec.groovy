@@ -6,7 +6,7 @@ import spock.lang.Specification
 class CountryResourceSpec extends Specification {
 
     static final PHONE_NUMBER = '+37126394806'
-    def requestFactory = Stub(RequestFactory)
+    def requestFactory = Stub(SearchEngineFactory)
     def resource = new CountryResource(requestFactory)
 
     def "should find country"() {

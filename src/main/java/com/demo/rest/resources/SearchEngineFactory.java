@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-class RequestFactory {
+class SearchEngineFactory {
 
     private final RawPhoneNumberFactory rawPhoneNumberFactory;
 
     @Autowired
-    public RequestFactory(RawPhoneNumberFactory rawPhoneNumberFactory) {
+    public SearchEngineFactory(RawPhoneNumberFactory rawPhoneNumberFactory) {
         this.rawPhoneNumberFactory = rawPhoneNumberFactory;
     }
 
