@@ -1,6 +1,6 @@
 package com.demo.rest.resources
 
-import com.demo.reader_pipeline.communications.SearchEngine
+import com.demo.reader.communications.SearchEngine
 import spock.lang.Specification
 
 class CountryResourceSpec extends Specification {
@@ -13,7 +13,7 @@ class CountryResourceSpec extends Specification {
         given:
             def searchEngine = Mock(SearchEngine)
             def latvia = new Country('Latvia')
-            def country = Mock(com.demo.reader_pipeline.communications.Country)
+            def country = Mock(com.demo.reader.communications.Country)
             requestFactory.of(_ as String) >> searchEngine
 
         when: "user inputs correct international phone number"

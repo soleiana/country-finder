@@ -1,6 +1,6 @@
 package com.demo;
 
-import com.demo.reader_pipeline.core.RawPhoneNumberFactory;
+import com.demo.reader.core.RawPhoneNumberFactory;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;

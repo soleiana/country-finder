@@ -1,6 +1,6 @@
 package com.demo.rest.clients;
 
-import com.demo.writer_pipeline.exceptions.WebPageAccessException;
+import com.demo.writer.exceptions.WebPageAccessException;
 import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
