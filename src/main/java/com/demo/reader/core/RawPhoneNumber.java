@@ -19,7 +19,6 @@ public class RawPhoneNumber {
     public FormattedPhoneNumber format() {
         FormattedNumberString formattedNumberString = numberString.withoutSpaceCharacters()
                 .withInternationalCallPrefix()
-                .checkFormat()
                 .build();
 
         return formattedPhoneNumberFactory.of(formattedNumberString);

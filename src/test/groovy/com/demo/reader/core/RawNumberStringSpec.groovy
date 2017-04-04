@@ -58,8 +58,8 @@ class RawNumberStringSpec extends Specification {
         given: "phone number is empty | containing white space characters | non-numeric phone number characters"
             phoneNumberString = createRawNumberString(phoneNumber)
 
-        when: "check format"
-            phoneNumberString.checkFormat()
+        when: "build"
+            phoneNumberString.build()
 
         then: "FormatException thrown"
             def exception = thrown(FormatException)

@@ -1,6 +1,5 @@
 package com.demo.reader.core
 
-import com.demo.reader.exceptions.FormatException
 import spock.lang.Specification
 
 class RawPhoneNumberSpec extends Specification {
@@ -11,7 +10,6 @@ class RawPhoneNumberSpec extends Specification {
     def numberString = Mock(RawNumberString)
     def numberStringWithoutSpaceCharacters = Mock(RawNumberString)
     def numberStringWithCallPrefix = Mock(RawNumberString)
-    def checkedNumberString = Mock(RawNumberString)
 
     def formattedNumberString = Mock(FormattedNumberString)
 
@@ -32,35 +30,10 @@ class RawPhoneNumberSpec extends Specification {
         then: "add international call prefix"
             1 * numberStringWithoutSpaceCharacters.withInternationalCallPrefix() >> numberStringWithCallPrefix
 
-        then: "check format"
-            1 * numberStringWithCallPrefix.checkFormat() >> checkedNumberString
-
         then: "build formatted phone number"
-            1 * checkedNumberString.build() >> formattedNumberString
+            1 * numberStringWithCallPrefix.build() >> formattedNumberString
 
         and: "create formatted phone number"
             1 * formattedPhoneNumberFactory.of(formattedNumberString)
     }
-
-    def "should throw FormatException if empty phone number"() {
-
-        when: "format"
-            rawPhoneNumber.format()
-
-        then: "remove space characters"
-            1 * numberString.withoutSpaceCharacters() >> numberStringWithoutSpaceCharacters
-
-        then: "add international call prefix"
-            1 * numberStringWithoutSpaceCharacters.withInternationalCallPrefix() >> numberStringWithCallPrefix
-
-        then: "throw FormatException"
-            1 * numberStringWithCallPrefix.checkFormat() >> {
-                throw new FormatException(EMPTY_NUMBER)
-            }
-
-        and: "FormatException thrown"
-            def exception = thrown(FormatException)
-            exception.message == EMPTY_NUMBER
-    }
-
 }

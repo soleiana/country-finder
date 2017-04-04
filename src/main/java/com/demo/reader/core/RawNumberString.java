@@ -31,7 +31,15 @@ class RawNumberString extends PhoneNumberString {
         return of(numberWithCallPrefix);
     }
 
-    RawNumberString checkFormat() {
+    FormattedNumberString build() {
+        FormattedNumberString formattedNumber = FormattedNumberString.builder()
+                .phoneNumber(phoneNumber)
+                .build();
+        checkFormat();
+        return formattedNumber;
+    }
+
+    private void checkFormat() {
         try {
             checkArgument(!isEmpty(phoneNumber) &&
                     !containsWhitespace(phoneNumber) &&
@@ -39,13 +47,6 @@ class RawNumberString extends PhoneNumberString {
         } catch (IllegalArgumentException exception) {
             throw new FormatException(EMPTY_NUMBER);
         }
-        return of(phoneNumber);
-    }
-
-    FormattedNumberString build() {
-        return FormattedNumberString.builder()
-                .phoneNumber(phoneNumber)
-                .build();
     }
 
     private String addInternationalCallPrefix(String phoneNumber) {
