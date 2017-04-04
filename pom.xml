@@ -76,19 +76,65 @@
 			<artifactId>spock-reports</artifactId>
 			<version>1.2.12</version>
 			<scope>test</scope>
-		</dependency>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spock-core</artifactId>
+                    <groupId>org.spockframework</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 		<dependency>
 			<groupId>org.mapdb</groupId>
 			<artifactId>mapdb</artifactId>
 			<version>3.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-report-plugin</artifactId>
 			<version>2.19</version>
-		</dependency>
+            <exclusions>
+                <exclusion>
+                    <artifactId>doxia-sink-api</artifactId>
+                    <groupId>org.apache.maven.doxia</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>plexus-utils</artifactId>
+                    <groupId>org.codehaus.plexus</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>plexus-container-default</artifactId>
+                    <groupId>org.codehaus.plexus</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-validator</artifactId>
+                    <groupId>commons-validator</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>maven-shared-utils</artifactId>
+                    <groupId>org.apache.maven.shared</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-lang</artifactId>
+                    <groupId>commons-lang</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>velocity</artifactId>
+                    <groupId>org.apache.velocity</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 		<dependency>
 			<groupId>cglib</groupId>
@@ -126,6 +172,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 
 	<reporting>
 		<plugins>
